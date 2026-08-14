@@ -8,7 +8,10 @@ import jakarta.persistence.*;
 public class Aluno {
     private String matricula;
     private String curso;
-    private long id_responsavel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_responsavel")
+    private Aluno responsavel;
 
     public Aluno() {}
 
@@ -28,11 +31,11 @@ public class Aluno {
         this.curso = curso;
     }
 
-    public long getId_responsavel() {
-        return id_responsavel;
+    public Aluno getResponsavel() {
+        return responsavel;
     }
 
-    public void setId_responsavel(long id_responsavel) {
-        this.id_responsavel = id_responsavel;
+    public void setResponsavel(Aluno responsavel) {
+        this.responsavel = responsavel;
     }
 }
