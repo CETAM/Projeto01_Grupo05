@@ -1,6 +1,6 @@
-package com.biblioteca.repository;
+package cetam.projeto01grupo05.repository;
 
-import com.biblioteca.model.Emprestimo;
+import cetam.projeto01grupo05.model.Emprestimo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,5 @@
-package com.biblioteca.repository;
-
-import com.biblioteca.model.Usuario;
+package cetam.projeto01grupo05.repository;
+import cetam.projeto01grupo05.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
