@@ -1,0 +1,103 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Central — Acesso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css"></head>
+<body>
+
+<div class="catalog-shell">
+
+    <!-- ===== PAINEL ESQUERDO: GAVETA DO CATÁLOGO ===== -->
+    <aside class="catalog-drawer">
+        <div class="drawer-tab">A&nbsp;—&nbsp;Z</div>
+        <div>
+            <p class="drawer-eyebrow">Biblioteca Central · Catálogo Geral</p>
+            <h1 class="drawer-title">Toda obra tem<br>seu lugar na fila.</h1>
+            <p class="drawer-copy">Consulte o acervo, acompanhe empréstimos e reservas. Acesso restrito a usuários cadastrados.</p>
+        </div>
+
+        <div class="drawer-index">
+            <div class="drawer-index-row">
+                <span class="perfil">Aluno · 3 exemplares</span>
+                <span class="prazo">7 dias</span>
+            </div>
+            <div class="drawer-index-row">
+                <span class="perfil">Professor · 5 exemplares</span>
+                <span class="prazo">15 dias</span>
+            </div>
+            <div class="drawer-index-row">
+                <span class="perfil">Funcionário · 3 exemplares</span>
+                <span class="prazo">7 dias</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ===== PAINEL DIREITO: FICHA DE ACESSO ===== -->
+    <section class="catalog-card">
+        <span class="punch-hole left" aria-hidden="true"></span>
+        <span class="punch-hole right" aria-hidden="true"></span>
+
+        <p class="card-eyebrow">Ficha de acesso</p>
+        <h2 class="card-title">Entrar no sistema</h2>
+
+        <!-- Mensagem de erro de autenticação (Spring Security: ?error)
+        <div class="banner erro" th:if="${param.error}">
+            Login ou senha não conferem. Verifique os dados e tente novamente.
+        </div> -->
+
+        <!-- Mensagem de sessão encerrada (Spring Security: ?logout)
+        <div class="banner info" th:if="${param.logout}">
+            Sessão encerrada com segurança. Até a próxima consulta.
+        </div> -->
+
+        <form th:action="@{/login}" method="post">
+
+            <!-- Token CSRF (Spring Security) -->
+            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <div class="campo">
+                <label for="username">E-mail ou CPF</label>
+                <input type="text" id="username" name="username" placeholder="nome@biblioteca.com" autocomplete="username" required autofocus>
+            </div>
+
+            <div class="campo">
+                <label for="username">E-mail ou CPF</label>
+                <input type="text" id="username" name="username" placeholder="nome@biblioteca.com" autocomplete="username" required autofocus>
+            </div>
+
+
+            <div class="campo">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+            </div>
+
+            <div class="linha-opcoes">
+                <label style="display:flex;align-items:center;gap:6px;">
+                    <input type="checkbox" name="remember-me" style="width:auto;">
+                    Manter conectado
+                </label>
+                <a th:href="@{/recuperar-senha}">Esqueci minha senha</a>
+            </div>
+
+            <div class="acao-carimbo">
+                <button type="submit" class="stamp-btn">Acessar</button>
+            </div>
+        </form>
+
+        <p class="card-footer">Sistema de Gerenciamento de Biblioteca</p>
+    </section>
+
+</div>
+
+</body>
+</html>
+
+
+
+
