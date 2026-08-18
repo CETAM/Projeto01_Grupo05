@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -17,8 +16,8 @@
     <aside class="catalog-drawer">
         <div class="drawer-tab">A&nbsp;—&nbsp;Z</div>
         <div>
-            <p class="drawer-eyebrow">Biblioteca Central · Catálogo Geral</p>
-            <h1 class="drawer-title">Toda obra tem<br>seu lugar na fila.</h1>
+            <p class="drawer-eyebrow">Biblioteca Vozes da Floresta · Catálogo Geral</p>
+            <h1 class="drawer-title">Todo conhecimento<br>tem seu lugar na fila.</h1>
             <p class="drawer-copy">Consulte o acervo, acompanhe empréstimos e reservas. Acesso restrito a usuários cadastrados.</p>
         </div>
 
@@ -27,14 +26,17 @@
                 <span class="perfil">Aluno · 3 exemplares</span>
                 <span class="prazo">7 dias</span>
             </div>
+
+            <div class="drawer-index-row">
+                <span class="perfil">Funcionário · 4 exemplares</span>
+                <span class="prazo">10 dias</span>
+            </div>
+
             <div class="drawer-index-row">
                 <span class="perfil">Professor · 5 exemplares</span>
                 <span class="prazo">15 dias</span>
             </div>
-            <div class="drawer-index-row">
-                <span class="perfil">Funcionário · 3 exemplares</span>
-                <span class="prazo">7 dias</span>
-            </div>
+
         </div>
     </aside>
 
@@ -66,10 +68,6 @@
                 <input type="text" id="username" name="username" placeholder="nome@biblioteca.com" autocomplete="username" required autofocus>
             </div>
 
-            <div class="campo">
-                <label for="username">E-mail ou CPF</label>
-                <input type="text" id="username" name="username" placeholder="nome@biblioteca.com" autocomplete="username" required autofocus>
-            </div>
 
 
             <div class="campo">
@@ -89,8 +87,6 @@
                 <button type="submit" class="stamp-btn">Acessar</button>
             </div>
         </form>
-
-        <p class="card-footer">Sistema de Gerenciamento de Biblioteca</p>
     </section>
 
 </div>
