@@ -20,9 +20,19 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
+
     background:
-            repeating-linear-gradient(135deg, rgba(0,0,0,0.02) 0 2px, transparent 2px 6px),
-            var(--creme-ficha-sombra);
+            linear-gradient(
+                    rgba(20, 42, 33, 0.35),
+                    rgba(20, 42, 33, 0.35)
+            ),
+            url('../img_login/pglogin.jpg');
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
     font-family:'IBM Plex Sans', sans-serif;
     color:var(--tinta);
     padding:32px 16px;
@@ -56,13 +66,13 @@ body{
     position:absolute;
     top:28px;
     right:-1px;
-    background:var(--dourado);
+    background: azure;
     color:var(--verde-arquivo-escuro);
     font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
+    font-size:12px;
     letter-spacing:0.14em;
     font-weight:500;
-    padding:6px 10px 6px 14px;
+    padding:4px 8px 6px 10px;
     border-radius:3px 0 0 3px;
 }
 
@@ -71,13 +81,13 @@ body{
     font-size:12px;
     letter-spacing:0.18em;
     text-transform:uppercase;
-    color:var(--dourado);
+    color: F3ECDAC7;
     margin:0 0 18px;
 }
 
 .drawer-title{
     font-family:'Fraunces', serif;
-    font-weight:600;
+    font-weight: bolder;
     font-size:38px;
     line-height:1.08;
     margin:0 0 14px;
@@ -86,7 +96,7 @@ body{
 .drawer-copy{
     font-size:14.5px;
     line-height:1.6;
-    color:rgba(243,236,218,0.78);
+    color: rgb(F1DFBBDA);
     max-width:30ch;
     margin:0;
 }
@@ -105,7 +115,7 @@ body{
     justify-content:space-between;
     font-family:'IBM Plex Mono', monospace;
     font-size:12px;
-    color:rgba(243,236,218,0.85);
+    color:rgbsa(243,236,218,0.85);
 }
 
 .drawer-index-row .perfil{
@@ -113,7 +123,7 @@ body{
 }
 
 .drawer-index-row .prazo{
-    color:var(--dourado);
+    color: #E3B862FF;
 }
 
 /* ---------- DIREITA: FICHA ---------- */
@@ -187,7 +197,7 @@ form{ display:flex; flex-direction:column; gap:22px; }
     font-size:11px;
     letter-spacing:0.1em;
     text-transform:uppercase;
-    color:var(--tinta-suave);
+    color:black;
 }
 
 .campo input{
@@ -196,13 +206,13 @@ form{ display:flex; flex-direction:column; gap:22px; }
     background:transparent;
     font-family:'IBM Plex Sans', sans-serif;
     font-size:16px;
-    color:var(--tinta);
+    color: black;
     padding:6px 2px 10px;
     outline:none;
     transition:border-color 0.2s ease;
 }
 
-.campo input::placeholder{ color:#B7AD8F; }
+.campo input::placeholder{ color: black; }
 
 .campo input:focus{
     border-bottom-color:var(--carimbo);
@@ -284,7 +294,7 @@ form{ display:flex; flex-direction:column; gap:22px; }
     font-family:'IBM Plex Mono', monospace;
     font-size:10.5px;
     letter-spacing:0.08em;
-    color:#9C927A;
+    color:black;
     text-transform:uppercase;
 }
 
