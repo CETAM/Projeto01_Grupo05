@@ -3,22 +3,29 @@ package cetam.projeto01grupo05.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table (name = "categoria")
+@Table(name = "categoria")
 public class Categoria {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_categoria;
+    @Column(name = "id_categoria")
+    private Long idCategoria;
+
+    @Column(name = "nome", nullable = false, length = 50)
     private String nome;
+
+    @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
 
-    public Categoria() {}
-
-    public Long getId_categoria() {
-        return id_categoria;
+    public Categoria() {
     }
 
-    public void setId_categoria(Long id_categoria) {
-        this.id_categoria = id_categoria;
+    public Long getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public String getNome() {
