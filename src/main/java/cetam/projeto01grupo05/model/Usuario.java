@@ -2,18 +2,28 @@ package cetam.projeto01grupo05.model;
 
 import cetam.projeto01grupo05.model.enums.StatusUsuario;
 import cetam.projeto01grupo05.model.enums.TipoUsuario;
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_usuario;
+    @Column(name = "id_usuario")
+    private Long idUsuario;
+
+    @Column(name = "nome", nullable = false, length = 100)
+    private String nome;
+
+    @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
+
+    @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
+
+    @Column(name = "senha", nullable = false, length = 255)
     private String senha;
 
     @Enumerated(EnumType.STRING)
@@ -22,23 +32,25 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private StatusExemplar status = StatusExemplar.ATIVO;
+    private StatusUsuario status = StatusUsuario.ATIVO;
 
-    public Usuario(long id_usuario, String cpf, String email, String senha, TipoUsuario tipoUsuario, StatusExemplar status) {
-        this.id_usuario = id_usuario;
-        this.cpf = cpf;
-        this.email = email;
-        this.senha = senha;
-        this.tipoUsuario = tipoUsuario;
-        this.status = status;
+    public Usuario() {
     }
 
-    public long getId_usuario() {
-        return id_usuario;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId_usuario(long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getCpf() {
@@ -73,11 +85,11 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public StatusExemplar getStatus() {
+    public StatusUsuario getStatus() {
         return status;
     }
 
-    public void setStatus(StatusExemplar status) {
+    public void setStatus(StatusUsuario status) {
         this.status = status;
     }
 }
