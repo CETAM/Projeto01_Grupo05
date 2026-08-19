@@ -1,6 +1,6 @@
-package com.biblioteca.repository;
+package cetam.projeto01grupo05.repository;
 
-import com.biblioteca.model.Editora;
+import cetam.projeto01grupo05.model.Editora;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
