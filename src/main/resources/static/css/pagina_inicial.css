@@ -1,475 +1,86 @@
-:root {
-    --verde-arquivo: #1F3A2E;
-    --verde-arquivo-escuro: #142A21;
-    --creme-ficha: #F3ECDA;
-    --creme-ficha-sombra: #E7DEC5;
-    --tinta: #26221B;
-    --tinta-suave: #55503F;
-    --carimbo: #A13F2C;
-    --carimbo-escuro: #832F20;
-    --dourado: #A9812F;
-    --linha: #CBBE9C;
-    --erro: #A13F2C;
+/* =========================================================
+   Biblioteca Central — tema base sobre o Bootstrap 5.3
+   Mantém os componentes padrão do Bootstrap, ajustando
+   apenas cor de destaque, tipografia leve e pequenos
+   detalhes (avatar, hover de cards) para dar identidade
+   de biblioteca sem fugir do "look" nativo do framework.
+   ========================================================= */
+
+:root{
+    /* Paleta aplicada em cima das variáveis do Bootstrap */
+    --bs-primary: #7a3b2e;
+    --bs-primary-rgb: 122, 59, 46;
+    --bs-link-color: #7a3b2e;
+    --bs-link-hover-color: #5e2c22;
+
+    --biblioteca-warning-soft: #fff8e6;
 }
 
-/* ---------- GERAL ---------- */
-
-* {
-    box-sizing: border-box;
+body{
+    background-color: #f7f5f1;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-        repeating-linear-gradient(
-            135deg,
-            rgba(0, 0, 0, 0.02) 0 2px,
-            transparent 2px 6px
-        ),
-        var(--creme-ficha-sombra);
+/* Botões e links usam a cor primária custom automaticamente
+   porque sobrescrevemos --bs-primary; ajustes finos abaixo. */
 
-    font-family: 'IBM Plex Sans', sans-serif;
-    color: var(--tinta);
+.btn-primary{
+    --bs-btn-hover-bg: #5e2c22;
+    --bs-btn-hover-border-color: #5e2c22;
+    --bs-btn-active-bg: #4d241c;
+    --bs-btn-active-border-color: #4d241c;
 }
 
-
-/* ---------- NAVBAR ---------- */
-
-.navbar {
-    background: var(--verde-arquivo-escuro) !important;
-    border-bottom: 3px solid var(--dourado);
+.btn-outline-primary{
+    --bs-btn-hover-bg: #7a3b2e;
+    --bs-btn-hover-border-color: #7a3b2e;
 }
 
-.navbar-brand {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    color: var(--creme-ficha) !important;
+.link-primary{
+    color: var(--bs-primary) !important;
 }
 
-.navbar-brand i {
-    color: var(--dourado);
-}
-
-.nav-link {
-    color: rgba(243, 236, 218, 0.75) !important;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    transition: color 0.2s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--dourado) !important;
-}
-
-.avatar-circle {
-    width: 36px;
-    height: 36px;
+/* Navbar */
+.avatar-circle{
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
+    background-color: rgba(255,255,255,.15);
+    color: #fff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
-    background: var(--dourado);
-    color: var(--verde-arquivo-escuro);
-
-    font-family: 'IBM Plex Mono', monospace;
+    font-size: .8rem;
     font-weight: 600;
 }
 
-.dropdown-toggle::after {
-    color: var(--dourado);
+/* Hero */
+header.bg-primary{
+    background-image: linear-gradient(135deg, var(--bs-primary), #9c5240);
 }
 
-.dropdown-menu {
-    border: 1px solid var(--linha);
-    border-radius: 3px;
-    box-shadow: 0 10px 25px rgba(20, 42, 33, 0.2);
+/* Cards */
+.card{
+    border-radius: .5rem;
+}
+.card.shadow-sm:hover{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
+    transition: box-shadow .15s ease;
 }
 
-.dropdown-item {
-    color: var(--tinta);
+/* Painel do funcionário */
+.staff-link{
+    transition: background-color .15s ease, transform .1s ease;
+}
+.staff-link:hover{
+    background-color: rgba(255,255,255,.06) !important;
+    transform: translateY(-2px);
 }
 
-.dropdown-item:hover {
-    background: var(--creme-ficha);
-    color: var(--verde-arquivo);
-}
-
-
-/* ---------- HERO ---------- */
-
-header.bg-primary {
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.025) 0 1px,
-            transparent 1px 34px
-        ),
-        linear-gradient(
-            160deg,
-            var(--verde-arquivo) 0%,
-            var(--verde-arquivo-escuro) 100%
-        ) !important;
-}
-
-header .text-uppercase {
-    color: var(--dourado);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-}
-
-header h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600 !important;
-    color: var(--creme-ficha);
-}
-
-header p {
-    color: rgba(243, 236, 218, 0.78);
-}
-
-header .form-control {
-    border: none;
-    border-bottom: 1.5px solid var(--linha);
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.96);
-    color: var(--tinta);
-}
-
-header .form-control:focus {
-    border-color: var(--dourado);
-    box-shadow: 0 0 0 3px rgba(169, 129, 47, 0.2);
-}
-
-header .form-control::placeholder {
-    color: #8f866f;
-}
-
-header .btn-light {
-    background: var(--creme-ficha);
-    border-color: var(--creme-ficha);
-    color: var(--verde-arquivo);
-    font-weight: 600;
-}
-
-header .btn-light:hover {
-    background: var(--dourado);
-    border-color: var(--dourado);
-    color: var(--verde-arquivo-escuro);
-}
-
-
-/* ---------- CONTEÚDO PRINCIPAL ---------- */
-
-main.container {
-    max-width: 1200px;
-}
-
-
-/* ---------- TÍTULOS DAS SEÇÕES ---------- */
-
-section h2 {
-    font-family: 'Fraunces', serif;
-    color: var(--tinta);
-}
-
-section h2 .bi {
-    color: var(--carimbo) !important;
-}
-
-
-/* ---------- FICHA DO LEITOR ---------- */
-
-main .card {
-    border-radius: 3px;
-    border: 1px solid var(--linha) !important;
-    background: #fff;
-    box-shadow: 0 8px 18px rgba(20, 42, 33, 0.08) !important;
-}
-
-main .card-body {
-    padding: 22px;
-}
-
-main .card .text-uppercase {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--tinta-suave) !important;
-}
-
-main .card-title {
-    font-family: 'Fraunces', serif;
-    color: var(--tinta);
-}
-
-main .card-text {
-    color: var(--tinta-suave) !important;
-}
-
-
-/* ---------- STATUS ---------- */
-
-.badge.text-bg-success {
-    background: var(--verde-arquivo) !important;
-}
-
-.badge.text-bg-danger {
-    background: var(--carimbo) !important;
-}
-
-.badge.text-bg-warning {
-    background: var(--dourado) !important;
-    color: var(--verde-arquivo-escuro) !important;
-}
-
-.badge.text-bg-secondary {
-    background: var(--tinta-suave) !important;
-}
-
-
-/* ---------- CABEÇALHO DAS SEÇÕES ---------- */
-
-.section-head {
-    border-bottom: 1px solid var(--linha);
-    padding-bottom: 10px;
-}
-
-main section > .d-flex h2 {
-    color: var(--verde-arquivo);
-}
-
-
-/* ---------- EMPRÉSTIMOS ---------- */
-
-.table-responsive {
-    background: #fff;
-    border: 1px solid var(--linha);
-    border-radius: 3px;
-    box-shadow: 0 8px 18px rgba(20, 42, 33, 0.07);
-}
-
-.table {
-    margin-bottom: 0;
-    color: var(--tinta);
-}
-
-.table thead th {
-    background: var(--creme-ficha);
-    color: var(--tinta-suave);
-    border-bottom: 1px solid var(--linha);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.table tbody td {
-    border-color: rgba(203, 190, 156, 0.45);
+/* Tabelas */
+.table > :not(caption) > * > *{
     vertical-align: middle;
 }
 
-.table tbody tr:hover {
-    background: rgba(243, 236, 218, 0.45);
-}
-
-
-/* ---------- BOTÕES ---------- */
-
-.btn-primary {
-    background: var(--verde-arquivo);
-    border-color: var(--verde-arquivo);
-}
-
-.btn-primary:hover {
-    background: var(--verde-arquivo-escuro);
-    border-color: var(--verde-arquivo-escuro);
-}
-
-.btn-outline-primary {
-    color: var(--verde-arquivo);
-    border-color: var(--verde-arquivo);
-}
-
-.btn-outline-primary:hover {
-    background: var(--verde-arquivo);
-    border-color: var(--verde-arquivo);
-}
-
-.btn-outline-danger {
-    color: var(--carimbo);
-    border-color: var(--carimbo);
-}
-
-.btn-outline-danger:hover {
-    background: var(--carimbo);
-    border-color: var(--carimbo);
-}
-
-
-/* ---------- ALERTAS ---------- */
-
-.alert {
-    border-radius: 3px;
-    border-color: var(--linha) !important;
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--tinta-suave) !important;
-}
-
-
-/* ---------- RESERVAS ---------- */
-
-.list-group {
-    border-radius: 3px;
-    box-shadow: 0 8px 18px rgba(20, 42, 33, 0.07);
-}
-
-.list-group-item {
-    background: #fff;
-    border-color: var(--linha);
-    color: var(--tinta);
-}
-
-.list-group-item:hover {
-    background: var(--creme-ficha);
-}
-
-.list-group-item .fw-semibold {
-    font-family: 'Fraunces', serif;
-}
-
-.list-group-item .text-muted {
-    color: var(--tinta-suave) !important;
-}
-
-
-/* ---------- ACERVO ---------- */
-
-main .row .card {
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-main .row .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 25px rgba(20, 42, 33, 0.14) !important;
-}
-
-main .row .card .badge.text-bg-light {
-    background: var(--creme-ficha) !important;
-    color: var(--verde-arquivo) !important;
-    border-color: var(--linha) !important;
-}
-
-main .row .card .border-top {
-    border-color: var(--linha) !important;
-}
-
-.text-success {
-    color: var(--verde-arquivo) !important;
-}
-
-.text-muted {
-    color: var(--tinta-suave) !important;
-}
-
-
-/* ---------- PAINEL DO FUNCIONÁRIO ---------- */
-
-section.bg-dark {
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.025) 0 1px,
-            transparent 1px 34px
-        ),
-        linear-gradient(
-            160deg,
-            var(--verde-arquivo) 0%,
-            var(--verde-arquivo-escuro) 100%
-        ) !important;
-}
-
-section.bg-dark .text-warning {
-    color: var(--dourado) !important;
-}
-
-.staff-link {
-    border-color: rgba(203, 190, 156, 0.35) !important;
-    border-radius: 3px;
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.staff-link:hover {
-    background: rgba(243, 236, 218, 0.06) !important;
-    border-color: var(--dourado) !important;
-    transform: translateY(-3px);
-}
-
-.staff-link .text-warning {
-    color: var(--dourado) !important;
-}
-
-.staff-link .card-title {
-    font-family: 'Fraunces', serif;
-}
-
-
-/* ---------- FOOTER ---------- */
-
-footer {
-    background: var(--creme-ficha) !important;
-    border-top: 1px solid var(--linha) !important;
-    color: var(--tinta-suave) !important;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px !important;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-
-
-/* ---------- RESPONSIVIDADE ---------- */
-
-@media (max-width: 768px) {
-
-    header h1 {
-        font-size: 2rem;
-    }
-
-    header .col-lg-8 {
-        width: 100%;
-    }
-
-    main {
-        padding-left: 18px;
-        padding-right: 18px;
-    }
-
-    .table-responsive {
-        font-size: 14px;
-    }
-
-    .table th,
-    .table td {
-        white-space: nowrap;
-    }
-}
-
-
-/* ---------- ACESSIBILIDADE ---------- */
-
-@media (prefers-reduced-motion: reduce) {
-
-    main .row .card,
-    .staff-link {
-        transition: none;
-    }
+footer{
+    letter-spacing: .02em;
 }
