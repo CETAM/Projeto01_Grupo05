@@ -1,50 +1,92 @@
-/* =========================================================
-   Biblioteca Central — tema base sobre o Bootstrap 5.3
-   Mantém os componentes padrão do Bootstrap, ajustando
-   apenas cor de destaque, tipografia leve e pequenos
-   detalhes (avatar, hover de cards) para dar identidade
-   de biblioteca sem fugir do "look" nativo do framework.
-   ========================================================= */
-
-:root{
-    /* Paleta aplicada em cima das variáveis do Bootstrap */
-    --bs-primary: #7a3b2e;
-    --bs-primary-rgb: 122, 59, 46;
-    --bs-link-color: #7a3b2e;
-    --bs-link-hover-color: #5e2c22;
+:root {
+    --bs-primary: #132B15FF;
+    --bs-primary-rgb: 19, 43, 21;
+    --bs-link-color: #132B15FF;
+    --bs-link-hover-color: #0d1f0f;
 
     --biblioteca-warning-soft: #fff8e6;
 }
 
-body{
+/* =========================
+   GERAL
+   ========================= */
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
     background-color: #f7f5f1;
 }
 
-/* Botões e links usam a cor primária custom automaticamente
-   porque sobrescrevemos --bs-primary; ajustes finos abaixo. */
-
-.btn-primary{
-    --bs-btn-hover-bg: #5e2c22;
-    --bs-btn-hover-border-color: #5e2c22;
-    --bs-btn-active-bg: #4d241c;
-    --bs-btn-active-border-color: #4d241c;
+img {
+    max-width: 100%;
+    height: auto;
 }
 
-.btn-outline-primary{
-    --bs-btn-hover-bg: #7a3b2e;
-    --bs-btn-hover-border-color: #7a3b2e;
+/* =========================
+   HEADER
+   ========================= */
+
+header.bg-primary {
+    background-image: linear-gradient(135deg, var(--bs-primary), #0b3e27);
 }
 
-.link-primary{
+/* =========================
+   CARDS
+   ========================= */
+
+.card {
+    border-radius: .5rem;
+}
+
+.card.shadow-sm:hover {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .08) !important;
+    transition: box-shadow .15s ease;
+}
+
+/* =========================
+   BOTÕES E LINKS
+   ========================= */
+
+.btn-primary {
+    --bs-btn-bg: #2B471AFF;
+    --bs-btn-border-color: #2B471AFF;
+    --bs-btn-hover-bg: #386641;
+    --bs-btn-hover-border-color: #386641;
+    --bs-btn-active-bg: #2F5233;
+    --bs-btn-active-border-color: #2F5233;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #2B471AFF;
+    --bs-btn-border-color: #2B471AFF;
+    --bs-btn-hover-bg: #538534FF;
+    --bs-btn-hover-border-color: #406828FF;
+}
+
+.link-primary {
     color: var(--bs-primary) !important;
 }
 
-/* Navbar */
-.avatar-circle{
+/* =========================
+   NAVBAR
+   ========================= */
+
+.logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    display: block;
+}
+
+.avatar-circle {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,.15);
+    background-color: #105938;
     color: #fff;
     display: inline-flex;
     align-items: center;
@@ -53,34 +95,127 @@ body{
     font-weight: 600;
 }
 
-/* Hero */
-header.bg-primary{
-    background-image: linear-gradient(135deg, var(--bs-primary), #9c5240);
-}
+/* =========================
+   PAINEL DO FUNCIONÁRIO
+   ========================= */
 
-/* Cards */
-.card{
-    border-radius: .5rem;
-}
-.card.shadow-sm:hover{
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
-    transition: box-shadow .15s ease;
-}
-
-/* Painel do funcionário */
-.staff-link{
+.staff-link {
     transition: background-color .15s ease, transform .1s ease;
 }
-.staff-link:hover{
-    background-color: rgba(255,255,255,.06) !important;
+
+.staff-link:hover {
+    background-color: rgba(255, 255, 255, .06) !important;
     transform: translateY(-2px);
 }
 
-/* Tabelas */
-.table > :not(caption) > * > *{
-    vertical-align: middle;
+/* =========================
+   TABELAS
+   ========================= */
+
+.table {
+    width: 100%;
 }
 
-footer{
+/* =========================
+   RODAPÉ
+   ========================= */
+
+footer {
     letter-spacing: .02em;
+}
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+@media (max-width: 767.98px) {
+
+    /* Tabela vira cards no celular */
+    .table-responsive {
+        overflow-x: visible;
+    }
+
+    .table-responsive .table,
+    .table-responsive .table tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .table-responsive .table thead {
+        display: none;
+    }
+
+    .table-responsive .table tbody tr {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: .75rem;
+        border: 1px solid #dee2e6;
+        border-radius: .5rem;
+        background-color: #fff;
+    }
+
+    .table-responsive .table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        padding: .6rem .25rem;
+        border: 0;
+        border-bottom: 1px solid #eee;
+        text-align: right;
+    }
+
+    .table-responsive .table tbody td:last-child {
+        border-bottom: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    /* Nome das colunas */
+    .table-responsive .table tbody td:nth-child(1)::before {
+        content: "Título";
+    }
+
+    .table-responsive .table tbody td:nth-child(2)::before {
+        content: "Exemplar";
+    }
+
+    .table-responsive .table tbody td:nth-child(3)::before {
+        content: "Retirado em";
+    }
+
+    .table-responsive .table tbody td:nth-child(4)::before {
+        content: "Situação";
+    }
+
+    .table-responsive .table tbody td:nth-child(5)::before {
+        content: "Ações";
+    }
+
+    .table-responsive .table tbody td::before {
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .table-responsive .table tbody td:last-child::before {
+        margin-right: auto;
+    }
+
+    .table-responsive .btn {
+        white-space: normal;
+    }
+
+    /* Títulos menores no celular */
+    h2.h4 {
+        font-size: 1.2rem;
+    }
+
+    /* Evita textos grandes ultrapassando a tela */
+    .card-title,
+    .card-text,
+    .badge {
+        overflow-wrap: anywhere;
+    }
 }
