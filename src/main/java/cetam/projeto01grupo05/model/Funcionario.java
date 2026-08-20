@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "funcionario")
-public class Funcionario {
+@PrimaryKeyJoinColumn(name = "id_usuario")
+public class Funcionario extends Usuario {
+
+    @Column(name = "cargo", nullable = false, length = 50)
     private String cargo;
 
     public Funcionario() {
