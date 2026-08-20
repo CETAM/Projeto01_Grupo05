@@ -4,8 +4,13 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "professor")
-public class Professor {
+@PrimaryKeyJoinColumn(name = "id_usuario")
+public class Professor extends Usuario {
+
+    @Column(name = "matricula", nullable = false, unique = true, length = 20)
     private String matricula;
+
+    @Column(name = "departamento", nullable = false, length = 100)
     private String departamento;
 
     public Professor() {
