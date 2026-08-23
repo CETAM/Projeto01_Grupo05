@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Livro;
 import cetam.projeto01grupo05.service.LivroService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/livros")
+@Controller
+@RequestMapping("/livros")
 public class LivroController {
 
     private final LivroService livroService;
@@ -19,33 +17,35 @@ public class LivroController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Livro>> listarTodos() {
-        return ResponseEntity.ok(livroService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("livros", livroService.listarTodos());
+        return "livros";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Livro> buscarPorId(@PathVariable Long id) {
-        return livroService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("livro", new Livro());
+        return "livro-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Livro> cadastrar(@RequestBody Livro livro) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(livroService.salvar(livro));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Livro livro) {
+        livroService.salvar(livro);
+        return "redirect:/livros";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Livro> atualizar(@PathVariable Long id, @RequestBody Livro dados) {
-        return livroService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        livroService.buscarPorId(id).ifPresent(livro ->
+                model.addAttribute("livro", livro)
+        );
+
+        return "livro-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return livroService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        livroService.deletar(id);
+        return "redirect:/livros";
     }
 }
