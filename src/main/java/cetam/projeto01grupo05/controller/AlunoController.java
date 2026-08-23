@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Aluno;
 import cetam.projeto01grupo05.service.AlunoService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/alunos")
+@Controller
+@RequestMapping("/alunos")
 public class AlunoController {
 
     private final AlunoService alunoService;
@@ -19,33 +17,32 @@ public class AlunoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Aluno>> listarTodos() {
-        return ResponseEntity.ok(alunoService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("alunos", alunoService.listarTodos());
+        return "alunos";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Aluno> buscarPorId(@PathVariable Long id) {
-        return alunoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("aluno", new Aluno());
+        return "alunos-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Aluno> cadastrar(@RequestBody Aluno aluno) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(alunoService.salvar(aluno));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Aluno aluno) {
+        alunoService.salvar(aluno);
+        return "redirect:/alunos";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Aluno> atualizar(@PathVariable Long id, @RequestBody Aluno dados) {
-        return alunoService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("aluno", alunoService.buscarPorId(id).orElseThrow());
+        return "alunos-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return alunoService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        alunoService.deletar(id);
+        return "redirect:/alunos";
     }
 }
