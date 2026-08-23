@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Emprestimo;
 import cetam.projeto01grupo05.service.EmprestimoService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/emprestimos")
+@Controller
+@RequestMapping("/emprestimos")
 public class EmprestimoController {
 
     private final EmprestimoService emprestimoService;
@@ -19,33 +17,32 @@ public class EmprestimoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Emprestimo>> listarTodos() {
-        return ResponseEntity.ok(emprestimoService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("emprestimos", emprestimoService.listarTodos());
+        return "emprestimos";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Emprestimo> buscarPorId(@PathVariable Long id) {
-        return emprestimoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("emprestimo", new Emprestimo());
+        return "emprestimo-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Emprestimo> cadastrar(@RequestBody Emprestimo emprestimo) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(emprestimoService.salvar(emprestimo));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Emprestimo emprestimo) {
+        emprestimoService.salvar(emprestimo);
+        return "redirect:/emprestimos";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Emprestimo> atualizar(@PathVariable Long id, @RequestBody Emprestimo dados) {
-        return emprestimoService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("emprestimo", emprestimoService.buscarPorId(id).orElseThrow());
+        return "emprestimo-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return emprestimoService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        emprestimoService.deletar(id);
+        return "redirect:/emprestimos";
     }
 }
