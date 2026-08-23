@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Editora;
 import cetam.projeto01grupo05.service.EditoraService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/editoras")
+@Controller
+@RequestMapping("/editoras")
 public class EditoraController {
 
     private final EditoraService editoraService;
@@ -19,33 +17,32 @@ public class EditoraController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Editora>> listarTodos() {
-        return ResponseEntity.ok(editoraService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("editoras", editoraService.listarTodos());
+        return "editoras";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Editora> buscarPorId(@PathVariable Long id) {
-        return editoraService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("editora", new Editora());
+        return "editoras-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Editora> cadastrar(@RequestBody Editora editora) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(editoraService.salvar(editora));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Editora editora) {
+        editoraService.salvar(editora);
+        return "redirect:/editoras";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Editora> atualizar(@PathVariable Long id, @RequestBody Editora dados) {
-        return editoraService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("editora", editoraService.buscarPorId(id).orElseThrow());
+        return "editoras-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return editoraService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        editoraService.deletar(id);
+        return "redirect:/editoras";
     }
 }
