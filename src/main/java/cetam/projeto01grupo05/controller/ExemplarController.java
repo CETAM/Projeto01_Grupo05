@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Exemplar;
 import cetam.projeto01grupo05.service.ExemplarService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/exemplares")
+@Controller
+@RequestMapping("/exemplares")
 public class ExemplarController {
 
     private final ExemplarService exemplarService;
@@ -19,33 +17,32 @@ public class ExemplarController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Exemplar>> listarTodos() {
-        return ResponseEntity.ok(exemplarService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("exemplares", exemplarService.listarTodos());
+        return "exemplares";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Exemplar> buscarPorId(@PathVariable Long id) {
-        return exemplarService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("exemplar", new Exemplar());
+        return "exemplares-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Exemplar> cadastrar(@RequestBody Exemplar exemplar) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(exemplarService.salvar(exemplar));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Exemplar exemplar) {
+        exemplarService.salvar(exemplar);
+        return "redirect:/exemplares";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Exemplar> atualizar(@PathVariable Long id, @RequestBody Exemplar dados) {
-        return exemplarService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("exemplar", exemplarService.buscarPorId(id).orElseThrow());
+        return "exemplares-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return exemplarService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        exemplarService.deletar(id);
+        return "redirect:/exemplares";
     }
 }
