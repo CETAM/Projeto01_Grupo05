@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Devolucao;
 import cetam.projeto01grupo05.service.DevolucaoService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/devolucoes")
+@Controller
+@RequestMapping("/devolucoes")
 public class DevolucaoController {
 
     private final DevolucaoService devolucaoService;
@@ -19,33 +17,32 @@ public class DevolucaoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Devolucao>> listarTodos() {
-        return ResponseEntity.ok(devolucaoService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("devolucoes", devolucaoService.listarTodos());
+        return "devolucoes";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Devolucao> buscarPorId(@PathVariable Long id) {
-        return devolucaoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("devolucao", new Devolucao());
+        return "devolucao-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Devolucao> cadastrar(@RequestBody Devolucao devolucao) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(devolucaoService.salvar(devolucao));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Devolucao devolucao) {
+        devolucaoService.salvar(devolucao);
+        return "redirect:/devolucoes";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Devolucao> atualizar(@PathVariable Long id, @RequestBody Devolucao dados) {
-        return devolucaoService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("devolucao", devolucaoService.buscarPorId(id).orElseThrow());
+        return "devolucao-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return devolucaoService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        devolucaoService.deletar(id);
+        return "redirect:/devolucoes";
     }
 }
