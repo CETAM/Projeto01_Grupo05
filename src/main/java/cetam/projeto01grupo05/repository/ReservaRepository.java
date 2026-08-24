@@ -1,6 +1,7 @@
 package cetam.projeto01grupo05.repository;
 
 import cetam.projeto01grupo05.model.Reserva;
+import cetam.projeto01grupo05.model.enums.StatusReserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,15 +11,28 @@ import java.util.Optional;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    // Listar todas as reservas ativas/pendentes de um livro em ordem de prioridade (data de criação)
-    List<Reserva> findByLivroIdAndStatusOrderByDataSolicitacaoAsc(Long livroId, String status);
+    // Reservas de um determinado livro por status
+    List<Reserva> findByLivroIdLivroAndStatusOrderByDataReservaAsc(
+            Long idLivro,
+            StatusReserva status
+    );
 
-    // Buscar reservas pendentes do usuário
-    List<Reserva> findByUsuarioIdAndStatus(Long usuarioId, String status);
+    // Reservas de um determinado usuário por status
+    List<Reserva> findByUsuarioIdUsuarioAndStatus(
+            Long idUsuario,
+            StatusReserva status
+    );
 
-    // Verificar se o usuário já possui uma reserva ativa para determinado livro
-    boolean existsByUsuarioIdAndLivroIdAndStatus(Long usuarioId, Long livroId, String status);
+    // Verifica se o usuário já possui uma reserva para determinado livro
+    boolean existsByUsuarioIdUsuarioAndLivroIdLivroAndStatus(
+            Long idUsuario,
+            Long idLivro,
+            StatusReserva status
+    );
 
-    // Obter a primeira reserva da fila para atender quando um exemplar for devolvido
-    Optional<Reserva> findFirstByLivroIdAndStatusOrderByDataSolicitacaoAsc(Long livroId, String status);
+    // Primeira reserva da fila de um livro
+    Optional<Reserva> findFirstByLivroIdLivroAndStatusOrderByDataReservaAsc(
+            Long idLivro,
+            StatusReserva status
+    );
 }

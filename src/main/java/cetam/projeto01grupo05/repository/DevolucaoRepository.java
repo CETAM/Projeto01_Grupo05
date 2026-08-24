@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface DevolucaoRepository extends JpaRepository<Devolucao, Integer> {
+public interface DevolucaoRepository extends JpaRepository<Devolucao, Long> {
+
     Optional<Devolucao> findByEmprestimoIdEmprestimo(Long idEmprestimo);
 }
+
