@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Categoria;
 import cetam.projeto01grupo05.service.CategoriaService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/categorias")
+@Controller
+@RequestMapping("/categorias")
 public class CategoriaController {
 
     private final CategoriaService categoriaService;
@@ -19,33 +17,32 @@ public class CategoriaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> listarTodos() {
-        return ResponseEntity.ok(categoriaService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("categorias", categoriaService.listarTodos());
+        return "categorias";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Categoria> buscarPorId(@PathVariable Long id) {
-        return categoriaService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("categoria", new Categoria());
+        return "categorias-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Categoria> cadastrar(@RequestBody Categoria categoria) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.salvar(categoria));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Categoria categoria) {
+        categoriaService.salvar(categoria);
+        return "redirect:/categorias";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Categoria> atualizar(@PathVariable Long id, @RequestBody Categoria dados) {
-        return categoriaService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("categoria", categoriaService.buscarPorId(id).orElseThrow());
+        return "categorias-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return categoriaService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        categoriaService.deletar(id);
+        return "redirect:/categorias";
     }
 }
