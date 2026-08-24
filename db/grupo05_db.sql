@@ -1,6 +1,6 @@
 --  Criação do Banco de Dados
-CREATE DATABASE IF NOT EXISTS biblioteca_db;
-USE biblioteca_db;
+CREATE DATABASE IF NOT EXISTS grupo05_db;
+USE grupo05_db;
 
 -- Criação da Tabela USUARIO
 CREATE TABLE IF NOT EXISTS usuario (
