@@ -1,4 +1,6 @@
-package cetam.projeto01grupo05.controller;
+Categoria
+
+        package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Categoria;
 import cetam.projeto01grupo05.service.CategoriaService;
