@@ -1,31 +1,45 @@
 package cetam.projeto01grupo05.service;
 
-import aj.org.objectweb.asm.commons.Remapper;
 import cetam.projeto01grupo05.model.Autor;
 import cetam.projeto01grupo05.repository.AutorRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AutorService {
+
     private final AutorRepository autorRepository;
 
     public AutorService(AutorRepository autorRepository) {
         this.autorRepository = autorRepository;
     }
 
-    public Autor salvar(Autor autor) { return autorRepository.save(autor); }
-    public List<Autor> listarTodos() { return autorRepository.findAll(); }
-
-    public Remapper buscarPorId(Long id) {
-        return null;
+    public Autor salvar(Autor autor) {
+        return autorRepository.save(autor);
     }
 
-    public Remapper atualizar(Long id, Autor dados) {
-        return null;
+    public List<Autor> listarTodos() {
+        return autorRepository.findAll();
+    }
+
+    public Optional<Autor> buscarPorId(Long id) {
+        return autorRepository.findById(id);
+    }
+
+    public Optional<Autor> atualizar(Long id, Autor dados) {
+        return autorRepository.findById(id).map(autor -> {
+            autor.setNome(dados.getNome());
+            return autorRepository.save(autor);
+        });
     }
 
     public boolean deletar(Long id) {
+        if (autorRepository.existsById(id)) {
+            autorRepository.deleteById(id);
+            return true;
+        }
         return false;
     }
 }

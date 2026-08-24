@@ -11,21 +11,15 @@ import java.util.Optional;
 @Repository
 public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
 
-    // Buscar exemplar pelo código
-    Optional<Exemplar> findByCodigoExemplar(String codigoExemplar);
+    // Buscar exemplar pelo código de barras/tombamento único
+    Optional<Exemplar> findByCodigoEtiqueta(String codigoEtiqueta);
 
-    // Listar exemplares de um determinado livro
-    List<Exemplar> findByLivroIdLivro(Long idLivro);
+    // Listar todos os exemplares de um determinado livro pelo ID do livro
+    List<Exemplar> findByLivroId(Long livroId);
 
-    // Listar exemplares de um livro por status
-    List<Exemplar> findByLivroIdLivroAndStatus(
-            Long idLivro,
-            StatusExemplar status
-    );
+    // Listar apenas os exemplares de um livro que estão disponíveis para empréstimo
+    List<Exemplar> findByLivroIdAndStatus(Long livroId, StatusExemplar status);
 
-    // Contar exemplares de um livro por status
-    long countByLivroIdLivroAndStatus(
-            Long idLivro,
-            StatusExemplar status
-    );
+    // Contar quantos exemplares disponíveis um livro possui no momento
+    long countByLivroIdAndStatus(Long livroId, String status);
 }
