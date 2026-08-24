@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Funcionario;
 import cetam.projeto01grupo05.service.FuncionarioService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/funcionarios")
+@Controller
+@RequestMapping("/funcionarios")
 public class FuncionarioController {
 
     private final FuncionarioService funcionarioService;
@@ -19,33 +17,35 @@ public class FuncionarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Funcionario>> listarTodos() {
-        return ResponseEntity.ok(funcionarioService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("funcionarios", funcionarioService.listarTodos());
+        return "funcionarios";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Funcionario> buscarPorId(@PathVariable Long id) {
-        return funcionarioService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("funcionario", new Funcionario());
+        return "funcionario-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Funcionario> cadastrar(@RequestBody Funcionario funcionario) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.salvar(funcionario));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Funcionario funcionario) {
+        funcionarioService.salvar(funcionario);
+        return "redirect:/funcionarios";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Funcionario> atualizar(@PathVariable Long id, @RequestBody Funcionario dados) {
-        return funcionarioService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        funcionarioService.buscarPorId(id).ifPresent(funcionario ->
+                model.addAttribute("funcionario", funcionario)
+        );
+
+        return "funcionario-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return funcionarioService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        funcionarioService.deletar(id);
+        return "redirect:/funcionarios";
     }
 }
