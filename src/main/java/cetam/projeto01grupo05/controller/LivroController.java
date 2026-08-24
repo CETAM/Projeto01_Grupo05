@@ -36,7 +36,10 @@ public class LivroController {
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
-        model.addAttribute("livro", livroService.buscarPorId(id).orElseThrow());
+        livroService.buscarPorId(id).ifPresent(livro ->
+                model.addAttribute("livro", livro)
+        );
+
         return "livro-form";
     }
 

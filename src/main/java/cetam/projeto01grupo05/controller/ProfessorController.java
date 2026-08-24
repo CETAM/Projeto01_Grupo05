@@ -2,14 +2,12 @@ package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Professor;
 import cetam.projeto01grupo05.service.ProfessorService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/professores")
+@Controller
+@RequestMapping("/professores")
 public class ProfessorController {
 
     private final ProfessorService professorService;
@@ -19,33 +17,35 @@ public class ProfessorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Professor>> listarTodos() {
-        return ResponseEntity.ok(professorService.listarTodos());
+    public String listar(Model model) {
+        model.addAttribute("professores", professorService.listarTodos());
+        return "professores";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Professor> buscarPorId(@PathVariable Long id) {
-        return professorService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("professor", new Professor());
+        return "professor-form";
     }
 
-    @PostMapping
-    public ResponseEntity<Professor> cadastrar(@RequestBody Professor professor) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(professorService.salvar(professor));
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Professor professor) {
+        professorService.salvar(professor);
+        return "redirect:/professores";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Professor> atualizar(@PathVariable Long id, @RequestBody Professor dados) {
-        return professorService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        professorService.buscarPorId(id).ifPresent(professor ->
+                model.addAttribute("professor", professor)
+        );
+
+        return "professor-form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return professorService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        professorService.deletar(id);
+        return "redirect:/professores";
     }
 }
