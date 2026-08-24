@@ -29,20 +29,30 @@ public class EmprestimoController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Emprestimo emprestimo) {
-        emprestimoService.salvar(emprestimo);
+    public String salvar(
+            @RequestParam Long idUsuario,
+            @RequestParam Long idExemplar,
+            @RequestParam int dias) {
+
+        emprestimoService.realizarEmprestimo(
+                idUsuario,
+                idExemplar,
+                dias
+        );
+
         return "redirect:/emprestimos";
     }
 
-    @GetMapping("/editar/{id}")
-    public String editar(@PathVariable Long id, Model model) {
-        model.addAttribute("emprestimo", emprestimoService.buscarPorId(id).orElseThrow());
-        return "emprestimo-form";
-    }
+    @GetMapping("/{id}")
+    public String buscarPorId(
+            @PathVariable Long id,
+            Model model) {
 
-    @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable Long id) {
-        emprestimoService.deletar(id);
-        return "redirect:/emprestimos";
+        model.addAttribute(
+                "emprestimo",
+                emprestimoService.buscarPorId(id).orElseThrow()
+        );
+
+        return "emprestimo-detalhes";
     }
 }
