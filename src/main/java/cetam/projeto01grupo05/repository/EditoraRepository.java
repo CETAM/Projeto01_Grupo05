@@ -10,11 +10,9 @@ import java.util.Optional;
 @Repository
 public interface EditoraRepository extends JpaRepository<Editora, Long> {
 
-    // Buscar editora pelo nome (exato ou parcial)
     List<Editora> findByNomeContainingIgnoreCase(String nome);
 
-    // Verificar se já existe editora cadastrada com determinado CNPJ
-    Optional<Editora> findByCnpj(String cnpj);
+    Optional<Editora> findByNomeIgnoreCase(String nome);
 
-    boolean existsByCnpj(String cnpj);
+    boolean existsByNomeIgnoreCase(String nome);
 }
