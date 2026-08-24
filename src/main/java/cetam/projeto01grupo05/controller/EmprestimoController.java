@@ -1,15 +1,16 @@
 package cetam.projeto01grupo05.controller;
 
 import cetam.projeto01grupo05.model.Emprestimo;
+import cetam.projeto01grupo05.model.Usuario;
+import cetam.projeto01grupo05.model.enums.TipoUsuario;
 import cetam.projeto01grupo05.service.EmprestimoService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/emprestimos")
+@Controller
+@RequestMapping("/emprestimos")
 public class EmprestimoController {
 
     private final EmprestimoService emprestimoService;
@@ -19,33 +20,103 @@ public class EmprestimoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Emprestimo>> listarTodos() {
-        return ResponseEntity.ok(emprestimoService.listarTodos());
+    public String listar(
+            Model model,
+            HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("usuario", usuario);
+
+        if (usuario.getTipoUsuario() == TipoUsuario.FUNCIONARIO) {
+            model.addAttribute(
+                    "emprestimos",
+                    emprestimoService.listarTodos()
+            );
+        } else {
+            model.addAttribute(
+                    "emprestimos",
+                    emprestimoService.listarPorUsuario(
+                            usuario.getIdUsuario()
+                    )
+            );
+        }
+
+        return "emprestimos";
+    }
+
+    @GetMapping("/novo")
+    public String novo(
+            Model model,
+            HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        if (usuario.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
+            return "redirect:/emprestimos";
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("emprestimo", new Emprestimo());
+
+        return "emprestimo-form";
+    }
+
+    @PostMapping("/salvar")
+    public String salvar(
+            @RequestParam Long idUsuario,
+            @RequestParam Long idExemplar,
+            @RequestParam int dias,
+            HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        if (usuario.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
+            return "redirect:/emprestimos";
+        }
+
+        emprestimoService.realizarEmprestimo(
+                idUsuario,
+                idExemplar,
+                dias
+        );
+
+        return "redirect:/emprestimos";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Emprestimo> buscarPorId(@PathVariable Long id) {
-        return emprestimoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+    public String buscarPorId(
+            @PathVariable Long id,
+            Model model,
+            HttpSession session) {
 
-    @PostMapping
-    public ResponseEntity<Emprestimo> cadastrar(@RequestBody Emprestimo emprestimo) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(emprestimoService.salvar(emprestimo));
-    }
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Emprestimo> atualizar(@PathVariable Long id, @RequestBody Emprestimo dados) {
-        return emprestimoService.atualizar(id, dados)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+        if (usuario == null) {
+            return "redirect:/login";
+        }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        return emprestimoService.deletar(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+        model.addAttribute("usuario", usuario);
+
+        model.addAttribute(
+                "emprestimo",
+                emprestimoService
+                        .buscarPorId(id)
+                        .orElseThrow()
+        );
+
+        return "emprestimo-detalhes";
     }
 }
