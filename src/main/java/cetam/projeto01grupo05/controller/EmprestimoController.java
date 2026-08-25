@@ -19,11 +19,6 @@ public class EmprestimoController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("emprestimos", emprestimoService.listarTodos());
-        return "emprestimos";
-    }
-
-    @GetMapping("/novo")
-    public String novo(Model model) {
         model.addAttribute("emprestimo", new Emprestimo());
         return "emprestimo-form";
     }
@@ -37,6 +32,7 @@ public class EmprestimoController {
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
         model.addAttribute("emprestimo", emprestimoService.buscarPorId(id).orElseThrow());
+        model.addAttribute("emprestimos", emprestimoService.listarTodos());
         return "emprestimo-form";
     }
 
