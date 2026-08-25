@@ -11,8 +11,12 @@ import java.util.Optional;
 @Repository
 public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
 
+<<<<<<< Updated upstream
     // Buscar exemplar pelo código de barras/tombamento único
     Optional<Exemplar> findByCodigoEtiqueta(String codigoEtiqueta);
+=======
+    Optional<Exemplar> findByCodigoExemplar(String codigoExemplar);
+>>>>>>> Stashed changes
 
     // Listar todos os exemplares de um determinado livro pelo ID do livro
     List<Exemplar> findByLivroId(Long livroId);
@@ -20,6 +24,12 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
     // Listar apenas os exemplares de um livro que estão disponíveis para empréstimo
     List<Exemplar> findByLivroIdAndStatus(Long livroId, StatusExemplar status);
 
+<<<<<<< Updated upstream
     // Contar quantos exemplares disponíveis um livro possui no momento
     long countByLivroIdAndStatus(Long livroId, String status);
 }
+=======
+    long countByLivroIdLivroAndStatus(Long idLivro, String status);
+}
+
+>>>>>>> Stashed changes
