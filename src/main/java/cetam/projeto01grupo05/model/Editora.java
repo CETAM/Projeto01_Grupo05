@@ -5,22 +5,33 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "editora")
 public class Editora {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_editora;
+    @Column(name = "id_editora")
+    private Long idEditora;
+
+    @Column(name = "nome", nullable = false, length = 100)
     private String nome;
+
+    @Column(name = "endereco", length = 200)
     private String endereco;
+
+    @Column(name = "telefone", length = 20)
     private String telefone;
+
+    @Column(name = "email", length = 100)
     private String email;
 
-    public Editora() {}
-
-    public Long getId_editora() {
-        return id_editora;
+    public Editora() {
     }
 
-    public void setId_editora(Long id_editora) {
-        this.id_editora = id_editora;
+    public Long getIdEditora() {
+        return idEditora;
+    }
+
+    public void setIdEditora(Long idEditora) {
+        this.idEditora = idEditora;
     }
 
     public String getNome() {

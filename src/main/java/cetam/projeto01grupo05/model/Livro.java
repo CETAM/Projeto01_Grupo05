@@ -1,19 +1,28 @@
 package cetam.projeto01grupo05.model;
 
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "livro")
 public class Livro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_livro;
+    @Column(name = "id_livro")
+    private Long idLivro;
+
+    @Column(name = "codigo", nullable = false, unique = true, length = 20)
     private String codigo;
+
+    @Column(name = "titulo", nullable = false, length = 150)
     private String titulo;
+
+    @Column(name = "isbn", nullable = false, unique = true, length = 20)
     private String isbn;
+
+    @Column(name = "ano")
     private Integer ano;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,14 +41,15 @@ public class Livro {
     )
     private Set<Autor> autores = new HashSet<>();
 
-    public Livro() {}
-
-    public Long getId_livro() {
-        return id_livro;
+    public Livro() {
     }
 
-    public void setId_livro(Long id_livro) {
-        this.id_livro = id_livro;
+    public Long getIdLivro() {
+        return idLivro;
+    }
+
+    public void setIdLivro(Long idLivro) {
+        this.idLivro = idLivro;
     }
 
     public String getCodigo() {

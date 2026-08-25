@@ -5,15 +5,20 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "aluno")
 @PrimaryKeyJoinColumn(name = "id_usuario")
-public class Aluno {
+public class Aluno extends Usuario {
+
+    @Column(name = "matricula", nullable = false, unique = true, length = 20)
     private String matricula;
+
+    @Column(name = "curso", nullable = false, length = 100)
     private String curso;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_responsavel")
     private Aluno responsavel;
 
-    public Aluno() {}
+    public Aluno() {
+    }
 
     public String getMatricula() {
         return matricula;

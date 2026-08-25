@@ -1,6 +1,7 @@
-package com.biblioteca.repository;
+package cetam.projeto01grupo05.repository;
 
-import com.biblioteca.model.Exemplar;
+import cetam.projeto01grupo05.model.Exemplar;
+import cetam.projeto01grupo05.model.enums.StatusExemplar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
     List<Exemplar> findByLivroId(Long livroId);
 
     // Listar apenas os exemplares de um livro que estão disponíveis para empréstimo
-    List<Exemplar> findByLivroIdAndStatus(Long livroId, String status);
+    List<Exemplar> findByLivroIdAndStatus(Long livroId, StatusExemplar status);
 
     // Contar quantos exemplares disponíveis um livro possui no momento
     long countByLivroIdAndStatus(Long livroId, String status);

@@ -1,13 +1,21 @@
+/* =========================================================
+   Biblioteca Central — tema base sobre o Bootstrap 5.3
+   Mantém os componentes padrão do Bootstrap, ajustando
+   apenas cor de destaque, tipografia leve e pequenos
+   detalhes (avatar, hover de cards) para dar identidade
+   de biblioteca sem fugir do "look" nativo do framework.
+   ========================================================= */
+
 :root{
-    --bs-primary: #132B15FF;
-    --bs-primary-rgb: 19, 43, 21;
-    --bs-link-color: #132B15FF;
-    --bs-link-hover-color: #0d1f0f;
+    /* Paleta aplicada em cima das variáveis do Bootstrap */
+    --bs-primary: #7a3b2e;
+    --bs-primary-rgb: 122, 59, 46;
+    --bs-link-color: #7a3b2e;
+    --bs-link-hover-color: #5e2c22;
 
     --biblioteca-warning-soft: #fff8e6;
 }
 
-}
 body{
     background-color: #f7f5f1;
 }
@@ -15,36 +23,16 @@ body{
 /* Botões e links usam a cor primária custom automaticamente
    porque sobrescrevemos --bs-primary; ajustes finos abaixo. */
 
-
-header.bg-primary{
-    background-image: linear-gradient(135deg, var(--bs-primary), #0b3e27);
-}
-
-/* Cards */
-.card{
-    border-radius: .5rem;
-}
-
-.card.shadow-sm:hover{
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
-    transition: box-shadow .15s ease;
-}
-
-/* Botões */
 .btn-primary{
-    --bs-btn-bg: #2B471AFF;
-    --bs-btn-border-color:  #2B471AFF;
-    --bs-btn-hover-bg: #386641;
-    --bs-btn-hover-border-color: #386641;
-    --bs-btn-active-bg: #2F5233;
-    --bs-btn-active-border-color: #2F5233;
+    --bs-btn-hover-bg: #5e2c22;
+    --bs-btn-hover-border-color: #5e2c22;
+    --bs-btn-active-bg: #4d241c;
+    --bs-btn-active-border-color: #4d241c;
 }
 
 .btn-outline-primary{
-    --bs-btn-color: #2B471AFF;
-    --bs-btn-border-color: #2B471AFF;
-    --bs-btn-hover-bg: #538534FF;
-    --bs-btn-hover-border-color: #406828FF;
+    --bs-btn-hover-bg: #7a3b2e;
+    --bs-btn-hover-border-color: #7a3b2e;
 }
 
 .link-primary{
@@ -56,7 +44,7 @@ header.bg-primary{
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #105938;
+    background-color: rgba(255,255,255,.15);
     color: #fff;
     display: inline-flex;
     align-items: center;
@@ -65,14 +53,32 @@ header.bg-primary{
     font-weight: 600;
 }
 
+/* Hero */
+header.bg-primary{
+    background-image: linear-gradient(135deg, var(--bs-primary), #9c5240);
+}
+
+/* Cards */
+.card{
+    border-radius: .5rem;
+}
+.card.shadow-sm:hover{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
+    transition: box-shadow .15s ease;
+}
+
 /* Painel do funcionário */
 .staff-link{
     transition: background-color .15s ease, transform .1s ease;
 }
-
 .staff-link:hover{
     background-color: rgba(255,255,255,.06) !important;
     transform: translateY(-2px);
+}
+
+/* Tabelas */
+.table > :not(caption) > * > *{
+    vertical-align: middle;
 }
 
 footer{

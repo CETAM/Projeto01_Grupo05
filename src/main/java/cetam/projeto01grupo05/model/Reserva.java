@@ -1,6 +1,5 @@
 package cetam.projeto01grupo05.model;
 
-
 import cetam.projeto01grupo05.model.enums.StatusReserva;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -8,10 +7,14 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "reserva")
 public class Reserva {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reserva")
+    private Long idReserva;
 
-    private LocalDateTime data_reserva;
+    @Column(name = "data_reserva", nullable = false)
+    private LocalDateTime dataReserva;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -25,14 +28,23 @@ public class Reserva {
     @JoinColumn(name = "id_livro", nullable = false)
     private Livro livro;
 
-    public Reserva() {}
-
-    public LocalDateTime getData_reserva() {
-        return data_reserva;
+    public Reserva() {
     }
 
-    public void setData_reserva(LocalDateTime data_reserva) {
-        this.data_reserva = data_reserva;
+    public Long getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(Long idReserva) {
+        this.idReserva = idReserva;
+    }
+
+    public LocalDateTime getDataReserva() {
+        return dataReserva;
+    }
+
+    public void setDataReserva(LocalDateTime dataReserva) {
+        this.dataReserva = dataReserva;
     }
 
     public StatusReserva getStatus() {

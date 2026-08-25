@@ -7,11 +7,17 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "emprestimo")
 public class Emprestimo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_emprestimo;
+    @Column(name = "id_emprestimo")
+    private Long idEmprestimo;
 
+    @Column(name = "data_emprestimo", nullable = false)
     private LocalDateTime dataEmprestimo;
+
+    @Column(name = "data_previsao_devolucao", nullable = false)
+    private LocalDateTime dataPrevisaoDevolucao;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -25,14 +31,15 @@ public class Emprestimo {
     @JoinColumn(name = "id_exemplar", nullable = false)
     private Exemplar exemplar;
 
-    public Emprestimo() {}
-
-    public Long getId_emprestimo() {
-        return id_emprestimo;
+    public Emprestimo() {
     }
 
-    public void setId_emprestimo(Long id_emprestimo) {
-        this.id_emprestimo = id_emprestimo;
+    public Long getIdEmprestimo() {
+        return idEmprestimo;
+    }
+
+    public void setIdEmprestimo(Long idEmprestimo) {
+        this.idEmprestimo = idEmprestimo;
     }
 
     public LocalDateTime getDataEmprestimo() {
@@ -41,6 +48,14 @@ public class Emprestimo {
 
     public void setDataEmprestimo(LocalDateTime dataEmprestimo) {
         this.dataEmprestimo = dataEmprestimo;
+    }
+
+    public LocalDateTime getDataPrevisaoDevolucao() {
+        return dataPrevisaoDevolucao;
+    }
+
+    public void setDataPrevisaoDevolucao(LocalDateTime dataPrevisaoDevolucao) {
+        this.dataPrevisaoDevolucao = dataPrevisaoDevolucao;
     }
 
     public StatusEmprestimo getStatus() {

@@ -1,6 +1,3 @@
-// =========================================================
-// Biblioteca Central — comportamentos da página inicial
-// =========================================================
 document.addEventListener('DOMContentLoaded', function () {
 
     // Ativa tooltips do Bootstrap, se houver algum elemento marcado

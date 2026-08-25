@@ -1,0 +1,277 @@
+/* =========================================================
+   Página de Cadastro de Livros — CSS específico
+   Combina com o tema definido em css/pagina_inicial.css
+   (verde institucional --bs-primary: #132B15, sem fontes
+   customizadas, seguindo os padrões visuais do Bootstrap)
+   ========================================================= */
+
+:root{
+    --livraria-verde: #132B15;
+    --livraria-verde-escuro: #0b3e27;
+    --livraria-verde-botao: #2B471A;
+    --livraria-verde-hover: #386641;
+    --livraria-verde-active: #2F5233;
+    --livraria-aviso-suave: #fff8e6;
+    --livraria-borda: #e2ddd0;
+    --livraria-texto-suave: #6c6a60;
+}
+
+/* =========================
+   BANNERS DE FEEDBACK
+   ========================= */
+.banner{
+    font-size: .875rem;
+    line-height: 1.5;
+    padding: .75rem 1rem;
+    border-radius: .5rem;
+    display: flex;
+    align-items: center;
+}
+.banner.erro{
+    background-color: #fdecea;
+    border: 1px solid #f1b3ac;
+    color: #8a2f24;
+}
+.banner.sucesso{
+    background-color: var(--livraria-aviso-suave);
+    border: 1px solid #e8d493;
+    color: var(--livraria-verde);
+}
+
+/* =========================
+   CARD PRINCIPAL (FICHA)
+   ========================= */
+.ficha-livro{
+    background: #fff;
+    border: 1px solid var(--livraria-borda);
+    box-shadow: 0 .5rem 1.5rem rgba(19,43,21,.06);
+}
+.ficha-livro .card-body{
+    padding: 2rem;
+}
+
+.card-eyebrow{
+    font-size: .72rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--livraria-texto-suave);
+    margin: 0;
+}
+
+.card-title-ficha{
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--livraria-verde);
+}
+
+.drawer-tab-mini{
+    background: var(--livraria-aviso-suave);
+    color: var(--livraria-verde);
+    font-size: .72rem;
+    letter-spacing: .06em;
+    font-weight: 600;
+    padding: .35rem .65rem;
+    border-radius: .35rem;
+    border: 1px solid #e8d493;
+    height: fit-content;
+}
+
+/* =========================
+   CAMPOS DO FORMULÁRIO
+   ========================= */
+.campo{
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+
+.campo label{
+    font-size: .75rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--livraria-texto-suave);
+    font-weight: 600;
+}
+
+.campo input,
+.campo select,
+.campo textarea{
+    border: none;
+    border-bottom: 1.5px solid var(--livraria-borda);
+    background: transparent;
+    font-size: .95rem;
+    color: #26221b;
+    padding: .4rem .1rem .55rem;
+    outline: none;
+    width: 100%;
+    transition: border-color .2s ease;
+}
+
+.campo textarea{ resize: vertical; }
+
+.campo input::placeholder,
+.campo textarea::placeholder{ color: #a8a290; }
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus{
+    border-bottom-color: var(--livraria-verde-botao);
+}
+.campo input:focus-visible,
+.campo select:focus-visible,
+.campo textarea:focus-visible{
+    outline: 2px solid var(--livraria-verde-hover);
+    outline-offset: 3px;
+}
+
+.linha-opcoes{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem;
+    font-size: .85rem;
+    color: var(--livraria-texto-suave);
+}
+
+.linha-opcoes a{
+    color: var(--livraria-verde);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--livraria-verde);
+    font-size: .8rem;
+}
+.linha-opcoes a:hover{ color: var(--livraria-verde-hover); border-bottom-color: var(--livraria-verde-hover); }
+
+/* =========================
+   BOTÃO DE ENVIO (CARIMBO)
+   ========================= */
+.acao-carimbo{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.75rem;
+}
+
+.stamp-btn{
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    border: 3px solid var(--livraria-verde-botao);
+    background: transparent;
+    color: var(--livraria-verde-botao);
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.3;
+    position: relative;
+}
+.stamp-btn::before{
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px solid var(--livraria-verde-botao);
+    border-radius: 50%;
+    opacity: .5;
+}
+.stamp-btn:hover{
+    transform: scale(1.04);
+    background: var(--livraria-verde-hover);
+    border-color: var(--livraria-verde-hover);
+    color: #fff;
+}
+.stamp-btn:active{
+    transform: scale(.94);
+    background: var(--livraria-verde-active);
+    border-color: var(--livraria-verde-active);
+}
+.stamp-btn:focus-visible{
+    outline: 2px solid var(--livraria-verde-hover);
+    outline-offset: 4px;
+}
+.stamp-btn:disabled{
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =========================
+   COLUNA LATERAL (ORIENTAÇÕES)
+   ========================= */
+.drawer-side{
+    position: sticky;
+    top: 90px;
+    background-image: linear-gradient(135deg, var(--livraria-verde), var(--livraria-verde-escuro));
+    color: #f3ede0;
+    border-radius: .5rem;
+    padding: 1.75rem 1.5rem;
+    box-shadow: 0 .75rem 1.75rem rgba(19,43,21,.25);
+}
+
+.drawer-eyebrow{
+    font-size: .72rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #e8d493;
+    margin: 0 0 .6rem;
+}
+
+.drawer-title-mini{
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 .5rem;
+}
+
+.drawer-copy-mini{
+    font-size: .85rem;
+    line-height: 1.55;
+    color: rgba(243,237,224,.78);
+    margin: 0;
+}
+
+.drawer-index{
+    border-top: 1px solid rgba(243,237,224,.18);
+    margin-top: 1.1rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+}
+
+.drawer-index-row{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-size: .75rem;
+    color: rgba(243,237,224,.85);
+}
+.drawer-index-row .prazo{ color: #e8d493; font-weight: 600; }
+
+.stat-recente{
+    border-top: 1px solid rgba(243,237,224,.18);
+}
+
+.recente-item{
+    display: flex;
+    justify-content: space-between;
+    gap: .6rem;
+    font-size: .8rem;
+    padding: .5rem 0;
+    border-bottom: 1px dashed rgba(243,237,224,.15);
+}
+.recente-item:last-child{ border-bottom: none; }
+.recente-item .titulo{ color: rgba(243,237,224,.92); }
+.recente-item .quando{ color: #e8d493; font-size: .72rem; font-weight: 600; }
+
+@media (max-width: 992px){
+    .drawer-side{ position: static; margin-top: 1.5rem; }
+}
+
+@media (max-width: 767.98px){
+    .ficha-livro .card-body{ padding: 1.25rem; }
+}
