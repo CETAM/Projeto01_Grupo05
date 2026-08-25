@@ -26,7 +26,7 @@ public class ExemplarService {
     }
 
     public List<Exemplar> buscarDisponiveisPorLivro(Long idLivro) {
-        return exemplarRepository.findByLivroIdAndStatus(
+        return exemplarRepository.findByLivroIdLivroAndStatus(
                 idLivro,
                 StatusExemplar.DISPONIVEL
         );
