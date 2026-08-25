@@ -10,12 +10,12 @@ import java.util.Optional;
 
 @Repository
 public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
-    
-    Optional<Exemplar> findByCodigoEtiqueta(String codigoEtiqueta);
 
-    List<Exemplar> findByLivroId(Long livroId);
+    Optional<Exemplar> findByCodigoExemplar(String codigoExemplar);
 
-    List<Exemplar> findByLivroIdAndStatus(Long livroId, StatusExemplar status);
+    List<Exemplar> findByLivroIdLivro(Long idLivro);
 
-    long countByLivroIdAndStatus(Long livroId, String status);
+    List<Exemplar> findByLivroIdLivroAndStatus(Long idLivro, StatusExemplar status);
+
+    long countByLivroIdLivroAndStatus(Long idLivro, String status);
 }
