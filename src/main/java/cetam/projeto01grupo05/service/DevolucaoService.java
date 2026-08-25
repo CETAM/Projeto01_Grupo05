@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DevolucaoService {
@@ -29,6 +31,26 @@ public class DevolucaoService {
         this.devolucaoRepository = devolucaoRepository;
         this.emprestimoRepository = emprestimoRepository;
         this.exemplarRepository = exemplarRepository;
+    }
+
+    public List<Devolucao> listarTodos() {
+        return devolucaoRepository.findAll();
+    }
+
+    public Devolucao salvar(Devolucao devolucao) {
+        return devolucaoRepository.save(devolucao);
+    }
+
+    public Optional<Devolucao> buscarPorId(Long id) {
+        return devolucaoRepository.findById(id);
+    }
+
+    public boolean deletar(Long id) {
+        if (devolucaoRepository.existsById(id)) {
+            devolucaoRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Transactional
