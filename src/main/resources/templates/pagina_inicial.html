@@ -3,13 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${'Biblioteca Central — ' + (usuario != null ? usuario.nome : 'Início')}">Biblioteca Central — Início</title>
-
-<<<<<<< Updated upstream:src/main/resources/static/pagina_inicial.html
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/pagina_inicial.css}" href="css/pagina_inicial.css">
-=======
+<<<<<<<< HEAD:src/main/resources/templates/pagina_inicial.html
     <title>Vozes da Floresta</title>
 
     <!-- Bootstrap -->
@@ -22,17 +16,17 @@
 
     <link rel="stylesheet" th:href="@{/css/pagina_inicial.css}">
 
->>>>>>> Stashed changes:src/main/resources/templates/pagina_inicial.html
+========
+    <title th:text="${'Biblioteca Central — ' + (usuario != null ? usuario.nome : 'Início')}">Biblioteca Central — Início</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/pagina_inicial.css}" href="css/pagina_inicial.css">
+>>>>>>>> origin/main:src/main/resources/static/pagina_inicial.html
 </head>
 <body>
 
-<<<<<<< Updated upstream:src/main/resources/static/pagina_inicial.html
-<!-- ===================== NAVBAR ===================== -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
-            <img src="img_logo/logo.png"
-=======
+<<<<<<<< HEAD:src/main/resources/templates/pagina_inicial.html
 <!-- SIDEBAR -->
 
 <div class="d-flex min-vh-100">
@@ -41,19 +35,19 @@
 
         <!-- LOGO -->
         <a href="#"
-           th:href="@{/static}"
+           th:href="@{/}"
            class="d-flex align-items-center mb-3 text-white text-decoration-none">
 
             <img src="../static/img_logo/logo.png"
->>>>>>> Stashed changes:src/main/resources/templates/pagina_inicial.html
                  th:src="@{/img_logo/logo.png}"
-                 alt="Logo"
-                 class="logo">
+                 alt="Biblioteca Central"
+                 class="sidebar-logo me-2">
+
+            <span class="fs-5 fw-semibold">
+                Vozes da Floresta
+            </span>
+
         </a>
-<<<<<<< Updated upstream:src/main/resources/static/pagina_inicial.html
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
-            <span class="navbar-toggler-icon"></span>
-=======
 
         <hr>
 
@@ -64,7 +58,7 @@
             <li class="nav-item mb-1">
 
                 <a href="#"
-                   th:href="@{/static}"
+                   th:href="@{/}"
                    class="nav-link active">
 
                     <i class="bi bi-house-door-fill me-2"></i>
@@ -1261,7 +1255,17 @@
         <button type="button"
                 class="btn-close btn-close-white"
                 data-bs-dismiss="offcanvas">
->>>>>>> Stashed changes:src/main/resources/templates/pagina_inicial.html
+========
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
+            <i class="bi bi-book-half fs-4"></i>
+            <span>Biblioteca Central</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+            <span class="navbar-toggler-icon"></span>
+>>>>>>>> origin/main:src/main/resources/static/pagina_inicial.html
         </button>
         <div class="collapse navbar-collapse" id="navMain">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -1300,7 +1304,6 @@
             Consulte o acervo, acompanhe seus empréstimos ativos e gerencie suas reservas diretamente por aqui.
         </p>
 
-<<<<<<< Updated upstream:src/main/resources/static/pagina_inicial.html
         <form class="row g-2 col-lg-8" th:action="@{/catalogo/buscar}" method="get">
             <div class="col-9 col-sm-10">
                 <input type="text" class="form-control form-control-lg" name="q" placeholder="Buscar por título, autor ou ISBN…">
@@ -1311,98 +1314,6 @@
                 </button>
             </div>
         </form>
-=======
-    <div class="offcanvas-body">
-
-        <ul class="nav nav-pills flex-column">
-
-            <!-- INÍCIO -->
-
-            <li class="nav-item mb-2">
-
-                <a href="#"
-                   th:href="@{/static}"
-                   class="nav-link active">
-
-                    <i class="bi bi-house-door-fill me-2"></i>
-
-                    Início
-
-                </a>
-
-            </li>
-
-
-            <!-- ACERVO -->
-
-            <li class="nav-item mb-2">
-
-                <a href="#"
-                   th:href="@{/catalogo}"
-                   class="nav-link text-white">
-
-                    <i class="bi bi-book me-2"></i>
-
-                    Acervo
-
-                </a>
-
-            </li>
-
-
-            <!-- EMPRÉSTIMOS -->
-
-            <li class="nav-item mb-2">
-
-                <a href="#"
-                   th:href="@{/emprestimos}"
-                   class="nav-link text-white">
-
-                    <i class="bi bi-journal-bookmark me-2"></i>
-
-                    Empréstimos
-
-                </a>
-
-            </li>
-
-
-            <!-- RESERVAS -->
-
-            <li class="nav-item mb-2">
-
-                <a href="#"
-                   th:href="@{/reservas}"
-                   class="nav-link text-white">
-
-                    <i class="bi bi-bookmark-star me-2"></i>
-
-                    Reservas
-
-                </a>
-
-            </li>
-
-
-            <!-- HISTÓRICO -->
-
-            <li class="nav-item mb-2">
-
-                <a href="#"
-                   th:href="@{/historico}"
-                   class="nav-link text-white">
-
-                    <i class="bi bi-clock-history me-2"></i>
-
-                    Histórico
-
-                </a>
-
-            </li>
-
-        </ul>
-
->>>>>>> Stashed changes:src/main/resources/templates/pagina_inicial.html
     </div>
 </header>
 
@@ -1451,19 +1362,19 @@
         </div>
     </section>
 
-<<<<<<< Updated upstream:src/main/resources/static/pagina_inicial.html
+<<<<<<<< HEAD:src/main/resources/templates/pagina_inicial.html
+<!-- BOOTSTRAP JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+========
     <!-- ===================== MEUS EMPRÉSTIMOS ===================== -->
     <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="h4 fw-bold m-0"><i class="bi bi-journal-bookmark me-2 text-primary"></i>Meus Empréstimos Ativos</h2>
             <span class="badge text-bg-light border" th:text="${(emprestimosAtivos != null ? #lists.size(emprestimosAtivos) : 2) + ' registro(s)'}">2 registro(s)</span>
         </div>
-=======
-<!-- BOOTSTRAP JS -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
-</script>
->>>>>>> Stashed changes:src/main/resources/templates/pagina_inicial.html
+>>>>>>>> origin/main:src/main/resources/static/pagina_inicial.html
 
         <div th:if="${emprestimosAtivos == null or #lists.isEmpty(emprestimosAtivos)}" class="alert alert-light border text-muted mb-0">
             <i class="bi bi-info-circle me-1"></i> Nenhum empréstimo ativo no momento. Os exemplares retirados aparecerão aqui.
@@ -1590,8 +1501,8 @@
                         <h5 class="card-title" th:text="${livro.titulo}">Título do livro</h5>
                         <p class="card-text text-muted small mb-auto" th:text="${livro.autoresNomes}">Nome do Autor</p>
                         <div class="d-flex justify-content-between align-items-center pt-3 mt-3 border-top">
-                    <span class="small fw-semibold"
-                          th:text="${livro.exemplaresDisponiveis + ' de ' + livro.totalExemplares + ' disponíveis'}">2 de 3 disponíveis</span>
+              <span class="small fw-semibold" th:classappend="${livro.exemplaresDisponiveis == 0} ? 'text-muted' : 'text-success'"
+                    th:text="${livro.exemplaresDisponiveis + ' de ' + livro.totalExemplares + ' disponíveis'}">2 de 3 disponíveis</span>
                             <a class="btn btn-sm btn-primary" th:href="@{'/livros/' + ${livro.idLivro}}">Ver</a>
                         </div>
                     </div>
@@ -1606,13 +1517,12 @@
                         <h5 class="card-title">Aprendendo MySQL na Prática</h5>
                         <p class="card-text text-muted small mb-auto">Lúcio Fernando</p>
                         <div class="d-flex justify-content-between align-items-center pt-3 mt-3 border-top">
-                            <span class="small fw-semibold">1 de 1 disponível</span>
+                            <span class="small fw-semibold text-success">1 de 1 disponível</span>
                             <a href="#" class="btn btn-sm btn-primary">Ver</a>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="col-sm-6 col-lg-4" th:if="${livrosDestaque == null}">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body d-flex flex-column">
@@ -1620,13 +1530,12 @@
                         <h5 class="card-title">Código Limpo</h5>
                         <p class="card-text text-muted small mb-auto">Robert C. Martin</p>
                         <div class="d-flex justify-content-between align-items-center pt-3 mt-3 border-top">
-                            <span class="small fw-semibold">0 de 2 disponíveis</span>
+                            <span class="small fw-semibold text-muted">0 de 2 disponíveis</span>
                             <a href="#" class="btn btn-sm btn-primary">Ver</a>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="col-sm-6 col-lg-4" th:if="${livrosDestaque == null}">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body d-flex flex-column">
@@ -1634,7 +1543,7 @@
                         <h5 class="card-title">Sistemas Operacionais Modernos</h5>
                         <p class="card-text text-muted small mb-auto">Andrew S. Tanenbaum</p>
                         <div class="d-flex justify-content-between align-items-center pt-3 mt-3 border-top">
-                            <span class="small fw-semibold">3 de 3 disponíveis</span>
+                            <span class="small fw-semibold text-success">3 de 3 disponíveis</span>
                             <a href="#" class="btn btn-sm btn-primary">Ver</a>
                         </div>
                     </div>
