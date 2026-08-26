@@ -1,618 +1,86 @@
-:root {
-    --bs-primary: #132B15FF;
-    --bs-primary-rgb: 19, 43, 21;
+/* =========================================================
+   Biblioteca Central — tema base sobre o Bootstrap 5.3
+   Mantém os componentes padrão do Bootstrap, ajustando
+   apenas cor de destaque, tipografia leve e pequenos
+   detalhes (avatar, hover de cards) para dar identidade
+   de biblioteca sem fugir do "look" nativo do framework.
+   ========================================================= */
 
-    --bs-link-color: #132B15FF;
-    --bs-link-hover-color: #0d1f0f;
-
-    --biblioteca-primary: #132B15;
-    --biblioteca-primary-dark: #0b3e27;
-    --biblioteca-green: #2B471A;
-    --biblioteca-green-hover: #386641;
-    --biblioteca-green-active: #2F5233;
+:root{
+    /* Paleta aplicada em cima das variáveis do Bootstrap */
+    --bs-primary: #7a3b2e;
+    --bs-primary-rgb: 122, 59, 46;
+    --bs-link-color: #7a3b2e;
+    --bs-link-hover-color: #5e2c22;
 
     --biblioteca-warning-soft: #fff8e6;
-
-    --sidebar-width: 280px;
 }
 
-
-html,
-body {
-    max-width: 100%;
-    min-height: 100%;
-    overflow-x: hidden;
-}
-
-body {
-    margin: 0;
+body{
     background-color: #f7f5f1;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+/* Botões e links usam a cor primária custom automaticamente
+   porque sobrescrevemos --bs-primary; ajustes finos abaixo. */
+
+.btn-primary{
+    --bs-btn-hover-bg: #5e2c22;
+    --bs-btn-hover-border-color: #5e2c22;
+    --bs-btn-active-bg: #4d241c;
+    --bs-btn-active-border-color: #4d241c;
 }
 
-
-/* =========================
-   LAYOUT PRINCIPAL
-   ========================= */
-
-.main-layout {
-    min-height: 100vh;
-    display: flex;
+.btn-outline-primary{
+    --bs-btn-hover-bg: #7a3b2e;
+    --bs-btn-hover-border-color: #7a3b2e;
 }
 
-.main-content {
-    margin-left: 280px;
-
-    min-width: 0;
-    min-height: 100vh;
-
-    background-color: #f7f5f1;
-}
-
-
-/* SIDEBAR */
-
-.sidebar {
-    width: 280px;
-    min-width: 280px;
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-
-    height: 100vh;
-
-    background-color: var(--biblioteca-primary);
-
-    display: flex;
-    flex-direction: column;
-
-    padding: 1rem;
-
-    overflow-y: auto;
-
-    z-index: 1030;
-
-    box-shadow: 2px 0 8px rgba(0, 0, 0, .08);
-}
-
-
-/* Logo / nome da biblioteca */
-
-.sidebar-brand {
-    display: flex;
-    align-items: center;
-
-    margin-bottom: 1rem;
-
-    color: #fff;
-    text-decoration: none;
-}
-
-.sidebar-brand:hover {
-    color: #fff;
-}
-
-.sidebar-logo {
-    width: 48px;
-    height: 48px;
-
-    object-fit: contain;
-
-    margin-right: .75rem;
-}
-
-.sidebar-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.2;
-}
-
-
-.sidebar hr {
-    margin: .5rem 0 1rem;
-    border-color: rgba(255, 255, 255, .15);
-}
-
-
-/* MENU DA SIDEBAR */
-
-.sidebar .nav {
-    gap: .25rem;
-}
-
-.sidebar .nav-link {
-    display: flex;
-    align-items: center;
-
-    gap: .75rem;
-
-    padding: .7rem .85rem;
-
-    border-radius: .5rem;
-
-    color: rgba(255, 255, 255, .75);
-
-    font-weight: 500;
-
-    transition:
-            background-color .15s ease,
-            color .15s ease,
-            transform .1s ease;
-}
-
-.sidebar .nav-link i {
-    width: 20px;
-
-    font-size: 1.1rem;
-
-    text-align: center;
-}
-
-
-.sidebar .nav-link:hover {
-    color: #fff;
-
-    background-color: rgba(255, 255, 255, .08);
-
-    transform: translateX(2px);
-}
-
-
-/* Item ativo */
-
-.sidebar .nav-link.active {
-    color: #fff;
-
-    background-color: var(--biblioteca-green);
-
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .12);
-}
-
-
-/* USUÁRIO NA SIDEBAR */
-
-.sidebar-user {
-    margin-top: auto;
-
-    padding-top: 1rem;
-
-    border-top: 1px solid rgba(255, 255, 255, .15);
-}
-
-.sidebar-user-link {
-    display: flex;
-    align-items: center;
-
-    gap: .75rem;
-
-    color: #fff;
-
-    text-decoration: none;
-
-    padding: .5rem;
-
-    border-radius: .5rem;
-
-    transition: background-color .15s ease;
-}
-
-.sidebar-user-link:hover {
-    color: #fff;
-
-    background-color: rgba(255, 255, 255, .08);
-}
-
-.sidebar-user img {
-    width: 38px;
-    height: 38px;
-
-    object-fit: cover;
-
-    border-radius: 50%;
-}
-
-.sidebar-user-name {
-    font-weight: 600;
-
-    line-height: 1.2;
-}
-
-.sidebar-user-type {
-    font-size: .75rem;
-
-    color: rgba(255, 255, 255, .6);
-}
-
-
-/* DROPDOWN DO USUÁRIO */
-
-.sidebar .dropdown-menu {
-    min-width: 220px;
-
-    border: 0;
-
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-}
-
-.sidebar .dropdown-item {
-    padding: .55rem .9rem;
-}
-
-.sidebar .dropdown-item:hover {
-    background-color: #f0f2f0;
-}
-
-
-/* HEADER / HERO */
-
-header.bg-primary {
-    background-image:
-            linear-gradient(
-                    135deg,
-                    var(--biblioteca-primary),
-                    var(--biblioteca-primary-dark)
-            );
-}
-
-
-/* CONTEÚDO DA PÁGINA */
-
-.page-content {
-    padding: 2rem;
-}
-
-
-/* CARDS */
-
-.card {
-    border-radius: .5rem;
-}
-
-.card.shadow-sm {
-    transition:
-            box-shadow .15s ease,
-            transform .15s ease;
-}
-
-.card.shadow-sm:hover {
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .08) !important;
-
-    transform: translateY(-2px);
-}
-
-
-/* BOTÕES */
-
-.btn-primary {
-    --bs-btn-bg: #2B471AFF;
-    --bs-btn-border-color: #2B471AFF;
-
-    --bs-btn-hover-bg: #386641;
-    --bs-btn-hover-border-color: #386641;
-
-    --bs-btn-active-bg: #2F5233;
-    --bs-btn-active-border-color: #2F5233;
-}
-
-.btn-outline-primary {
-    --bs-btn-color: #2B471AFF;
-    --bs-btn-border-color: #2B471AFF;
-
-    --bs-btn-hover-bg: #538534FF;
-    --bs-btn-hover-border-color: #406828FF;
-}
-
-.link-primary {
+.link-primary{
     color: var(--bs-primary) !important;
 }
 
-.link-primary:hover {
-    color: var(--bs-link-hover-color) !important;
-}
-
-
-/* AVATAR */
-
-.avatar-circle {
-    width: 38px;
-    height: 38px;
-
+/* Navbar */
+.avatar-circle{
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-
-    background-color: #105938;
-
+    background-color: rgba(255,255,255,.15);
     color: #fff;
-
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
-
-    font-size: .9rem;
-
+    font-size: .8rem;
     font-weight: 600;
-
-    flex-shrink: 0;
 }
 
-
-/* PAINEL DO FUNCIONÁRIO */
-
-.staff-link {
-    transition:
-            background-color .15s ease,
-            transform .1s ease;
+/* Hero */
+header.bg-primary{
+    background-image: linear-gradient(135deg, var(--bs-primary), #9c5240);
 }
 
-.staff-link:hover {
-    background-color: rgba(255, 255, 255, .06) !important;
+/* Cards */
+.card{
+    border-radius: .5rem;
+}
+.card.shadow-sm:hover{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
+    transition: box-shadow .15s ease;
+}
 
+/* Painel do funcionário */
+.staff-link{
+    transition: background-color .15s ease, transform .1s ease;
+}
+.staff-link:hover{
+    background-color: rgba(255,255,255,.06) !important;
     transform: translateY(-2px);
 }
 
-
-/* TABELAS */
-
-.table {
-    width: 100%;
+/* Tabelas */
+.table > :not(caption) > * > *{
+    vertical-align: middle;
 }
 
-
-/* RODAPÉ */
-
-footer {
+footer{
     letter-spacing: .02em;
-}
-
-
-/* DIVISÓRIA BOOTSTRAP */
-
-.b-example-divider {
-    flex-shrink: 0;
-    width: 1px;
-
-    background-color: rgba(0, 0, 0, .08);
-}
-
-
-/* RESPONSIVIDADE  */
-
-@media (max-width: 991.98px) {
-
-    .main-layout {
-        display: block;
-    }
-
-    .sidebar {
-        width: 100%;
-        min-width: 100%;
-
-        height: auto;
-        min-height: auto;
-
-        position: relative;
-
-        padding: .75rem 1rem;
-    }
-
-    .sidebar .nav {
-        flex-direction: row;
-
-        flex-wrap: wrap;
-    }
-
-    .sidebar .nav-link {
-        flex: 1 1 auto;
-    }
-
-    .sidebar-user {
-        margin-top: .75rem;
-    }
-
-    .main-content {
-        min-height: auto;
-    }
-
-    .page-content {
-        padding: 1.5rem;
-    }
-}
-
-
-/* =========================
-   CELULAR
-   ========================= */
-
-@media (max-width: 767.98px) {
-
-    .sidebar {
-        padding: .75rem;
-    }
-
-    .sidebar-brand {
-        margin-bottom: .75rem;
-    }
-
-    .sidebar-logo {
-        width: 42px;
-        height: 42px;
-    }
-
-    .sidebar-title {
-        font-size: 1.1rem;
-    }
-
-    .sidebar .nav {
-        display: grid;
-
-        grid-template-columns: repeat(2, 1fr);
-
-        gap: .35rem;
-    }
-
-    .sidebar .nav-link {
-        justify-content: flex-start;
-
-        padding: .6rem .7rem;
-
-        font-size: .9rem;
-    }
-
-    .page-content {
-        padding: 1rem;
-    }
-
-
-    .table-responsive {
-        overflow-x: visible;
-    }
-
-    .table-responsive .table,
-    .table-responsive .table tbody {
-        display: block;
-
-        width: 100%;
-    }
-
-    .table-responsive .table thead {
-        display: none;
-    }
-
-    .table-responsive .table tbody tr {
-        display: block;
-
-        width: 100%;
-
-        margin-bottom: 1rem;
-
-        padding: .75rem;
-
-        border: 1px solid #dee2e6;
-
-        border-radius: .5rem;
-
-        background-color: #fff;
-    }
-
-    .table-responsive .table tbody td {
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: center;
-
-        gap: 1rem;
-
-        width: 100%;
-
-        padding: .6rem .25rem;
-
-        border: 0;
-
-        border-bottom: 1px solid #eee;
-
-        text-align: right;
-    }
-
-    .table-responsive .table tbody td:last-child {
-        border-bottom: 0;
-
-        flex-wrap: wrap;
-
-        justify-content: flex-end;
-    }
-
-
-    /* Nome das colunas */
-
-    .table-responsive .table tbody td:nth-child(1)::before {
-        content: "Título";
-    }
-
-    .table-responsive .table tbody td:nth-child(2)::before {
-        content: "Exemplar";
-    }
-
-    .table-responsive .table tbody td:nth-child(3)::before {
-        content: "Retirado em";
-    }
-
-    .table-responsive .table tbody td:nth-child(4)::before {
-        content: "Situação";
-    }
-
-    .table-responsive .table tbody td:nth-child(5)::before {
-        content: "Ações";
-    }
-
-    .table-responsive .table tbody td::before {
-        font-weight: 600;
-
-        text-align: left;
-    }
-
-    .table-responsive .table tbody td:last-child::before {
-        margin-right: auto;
-    }
-
-    .table-responsive .btn {
-        white-space: normal;
-    }
-
-
-    /* TÍTULOS */
-
-    h2.h4 {
-        font-size: 1.2rem;
-    }
-
-    .card-title,
-    .card-text,
-    .badge {
-        overflow-wrap: anywhere;
-    }
-
-
-    /* HERO */
-
-    header.bg-primary {
-        padding-top: 2.5rem !important;
-
-        padding-bottom: 2.5rem !important;
-    }
-
-    header h1 {
-        font-size: 1.8rem;
-    }
-}
-
-
-@media (max-width: 575.98px) {
-
-    .sidebar .nav {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar .nav-link {
-        width: 100%;
-    }
-
-    .page-content {
-        padding: .75rem;
-    }
-
-    .avatar-circle {
-        width: 34px;
-        height: 34px;
-    }
-
-    .btn {
-        font-size: .85rem;
-    }
 }
