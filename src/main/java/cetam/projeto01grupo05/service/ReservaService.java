@@ -24,6 +24,10 @@ public class ReservaService {
         return reservaRepository.findAll();
     }
 
+    public List<Reserva> listarPorUsuario(Usuario usuario) {
+        return reservaRepository.findByUsuario(usuario);
+    }
+
     public Reserva salvar(Reserva reserva) {
         return reservaRepository.save(reserva);
     }
