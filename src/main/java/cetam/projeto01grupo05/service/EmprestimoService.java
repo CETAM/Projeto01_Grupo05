@@ -35,14 +35,25 @@ public class EmprestimoService {
     public List<Emprestimo> listarTodos() {
         return emprestimoRepository.findAll();
     }
-
-    // Lista somente os empréstimos de um determinado usuário
+    
     public List<Emprestimo> listarPorUsuario(Long idUsuario) {
-        return emprestimoRepository.findByUsuarioIdAndDataDevolucaoIsNull(idUsuario);
+        return emprestimoRepository.findByUsuarioIdUsuarioAndStatus(idUsuario, StatusEmprestimo.ATIVO);
     }
 
     public Optional<Emprestimo> buscarPorId(Long id) {
         return emprestimoRepository.findById(id);
+    }
+
+    public Emprestimo salvar(Emprestimo emprestimo) {
+        return emprestimoRepository.save(emprestimo);
+    }
+
+    public boolean deletar(Long id) {
+        if (emprestimoRepository.existsById(id)) {
+            emprestimoRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Transactional
