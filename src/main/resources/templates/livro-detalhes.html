@@ -53,7 +53,7 @@
                 </a>
                 <p class="text-uppercase small fw-semibold mb-2 opacity-75">Ficha Catalográfica</p>
                 <h1 class="display-6 fw-bold mb-2" th:text="${livro.titulo}">Título do Livro</h1>
-                <p class="mb-0 fs-5 opacity-75" th:text="${'Por ' + livro.autoresNomes}">Por Autor</p>
+                <p class="mb-0 fs-5 opacity-75">Detalhes da obra</p>
             </div>
         </header>
 
@@ -69,10 +69,10 @@
                             <h5 class="fw-bold mb-3">Informações Técnicas</h5>
                             <ul class="list-unstyled mb-0">
                                 <li class="mb-2"><strong class="text-muted">ISBN:</strong> <span th:text="${livro.isbn}">000-00-0000-000-0</span></li>
-                                <li class="mb-2"><strong class="text-muted">Editora:</strong> <span th:text="${livro.editora}">Nome da Editora</span></li>
-                                <li class="mb-2"><strong class="text-muted">Ano:</strong> <span th:text="${livro.anoPublicacao}">2026</span></li>
+                                <li class="mb-2"><strong class="text-muted">Editora:</strong> <span>A verificar</span></li>
+                                <li class="mb-2"><strong class="text-muted">Ano:</strong> <span>A verificar</span></li>
                                 <li class="mb-2"><strong class="text-muted">Categoria:</strong> <span class="badge text-bg-secondary ms-1" th:text="${livro.categoria != null ? livro.categoria.nome : 'Geral'}">Categoria</span></li>
-                                <li><strong class="text-muted">Localização:</strong> <span th:text="${livro.localizacao}">Corredor X</span></li>
+                                <li><strong class="text-muted">Localização:</strong> <span>A verificar</span></li>
                             </ul>
                         </div>
                     </div>
@@ -80,11 +80,14 @@
 
                 <div class="col-lg-8">
                     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                        <div>
-                            <h2 class="h4 fw-bold mb-1">Disponibilidade</h2>
-                            <p class="text-muted mb-0">
-                                <span th:text="${livro.totalExemplares}">0</span> exemplar(es) cadastrado(s) na biblioteca.
-                            </p>
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-body p-4">
+                                <h3 class="h5 fw-bold mb-3">Disponibilidade</h3>
+                                <p class="mb-0">
+                                    Exemplares disponíveis no acervo:
+                                    <strong class="text-success fs-5" th:text="${quantidadeDisponivel}">0</strong>
+                                </p>
+                            </div>
                         </div>
                         <div>
                             <a th:href="@{/reservas/nova(idLivro=${livro.idLivro})}" class="btn btn-primary btn-lg">
@@ -96,8 +99,8 @@
                     <div>
                         <h3 class="h5 fw-bold mb-3">Sinopse</h3>
                         <div class="bg-white p-4 rounded shadow-sm border border-light">
-                            <p class="text-muted mb-0" style="line-height: 1.7;" th:text="${livro.sinopse}">
-                                Nenhuma sinopse cadastrada para este livro.
+                            <p class="text-muted mb-0" style="line-height: 1.7;">
+                                Detalhes da sinopse estarão disponíveis em breve.
                             </p>
                         </div>
                     </div>
