@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Central — Empréstimos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/pagina_inicial.css}">
+</head>
+
+<body>
+
+<div class="d-flex min-vh-100">
+
+    <!-- ========================================================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================================================= -->
+    <aside class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-dark">
+
+        <a th:href="@{/}" class="d-flex align-items-center mb-3 text-white text-decoration-none">
+            <img th:src="@{/img_logo/logo.png}" alt="Logo" class="sidebar-logo me-2">
+            <span class="fs-5 fw-semibold">Vozes da Floresta</span>
+        </a>
+
+        <hr>
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item mb-1"><a th:href="@{/}" class="nav-link text-white"><i class="bi bi-house-door-fill me-2"></i>Início</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/catalogo}" class="nav-link text-white"><i class="bi bi-book me-2"></i>Acervo</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/emprestimos}" class="nav-link active"><i class="bi bi-journal-bookmark me-2"></i>Empréstimos</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/reservas}" class="nav-link text-white"><i class="bi bi-bookmark-star me-2"></i>Reservas</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/historico}" class="nav-link text-white"><i class="bi bi-clock-history me-2"></i>Histórico</a></li>
+        </ul>
+
+        <hr>
+
+        <!-- MENU DO USUÁRIO (Corrigido o href="#" para /) -->
+        <div class="dropdown">
+            <a th:href="@{/}" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                <div class="avatar-circle me-2" th:text="${usuario != null ? #strings.substring(usuario.nome, 0, 1).toUpperCase() : 'U'}">U</div>
+                <div>
+                    <strong th:text="${usuario != null ? usuario.nome : 'Usuário'}">Usuário</strong>
+                    <div class="small text-white-50" th:text="${usuario != null ? usuario.tipoUsuario : 'USUÁRIO'}">USUÁRIO</div>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark shadow">
+                <li><a class="dropdown-item" th:href="@{/perfil}"><i class="bi bi-person me-2"></i>Meu perfil</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" th:href="@{/logout}"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content flex-grow-1">
+
+        <nav class="navbar bg-dark d-md-none">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" th:href="@{/}">Vozes da Floresta</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+
+        <header class="bg-primary bg-gradient text-white py-5">
+            <div class="container">
+                <p class="text-uppercase small fw-semibold mb-2 opacity-75">Gestão da biblioteca · Funcionário</p>
+                <h1 class="display-6 fw-bold mb-3">Empréstimos</h1>
+                <p class="mb-0 col-lg-7 opacity-75">
+                    Consulte os empréstimos registrados e realize novos empréstimos para os usuários da biblioteca.
+                </p>
+            </div>
+        </header>
+
+        <div class="container my-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="h4 fw-bold mb-1">
+                        <i class="bi bi-journal-bookmark me-2 text-primary"></i>Empréstimos registrados
+                    </h2>
+                    <p class="text-muted small mb-0">Consulte os registros existentes no sistema.</p>
+                </div>
+                <!-- Botão visível só para funcionário -->
+                <a th:if="${usuario != null and usuario.tipoUsuario.toString() == 'FUNCIONARIO'}" th:href="@{/emprestimos/novo}" class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1"></i>Registrar empréstimo
+                </a>
+            </div>
+
+            <!-- MENSAGENS -->
+            <div th:if="${sucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                <span th:text="${sucesso}">Operação realizada com sucesso.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${erro}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                <span th:text="${erro}">Não foi possível realizar a operação.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- FORMULÁRIO DE NOVO EMPRÉSTIMO -->
+            <!-- ========================================================= -->
+            <section class="card border-0 shadow-sm mb-5" th:if="${usuario != null and usuario.tipoUsuario.toString() == 'FUNCIONARIO'}">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div>
+                            <p class="text-uppercase small text-muted fw-semibold mb-1">Novo registro</p>
+                            <h3 class="h5 fw-bold mb-0">Registrar empréstimo</h3>
+                        </div>
+                    </div>
+
+                    <form th:action="@{/emprestimos/salvar}" th:object="${emprestimo}" method="post">
+
+                        <input type="hidden" th:field="*{idEmprestimo}" />
+
+                        <div class="row g-3">
+
+                            <div class="col-md-4">
+                                <label for="usuarioId" class="form-label fw-semibold">Selecione o Leitor</label>
+                                <select id="usuarioId" class="form-select" name="usuario.idUsuario" required>
+                                    <option value="">Escolha um usuário...</option>
+                                    <option th:each="user : ${listaUsuarios}"
+                                            th:value="${user.idUsuario}"
+                                            th:text="${user.nome + ' (' + user.tipoUsuario + ')'}"
+                                            th:selected="${emprestimo.usuario != null and emprestimo.usuario.idUsuario == user.idUsuario}">
+                                        Nome do Usuário
+                                    </option>
+                                </select>
+                                <div class="form-text">Selecione quem receberá o livro.</div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="exemplarId" class="form-label fw-semibold">ID do exemplar</label>
+                                <input type="number" id="exemplarId" class="form-control" name="exemplar.idExemplar" th:value="${emprestimo.exemplar != null ? emprestimo.exemplar.idExemplar : ''}" placeholder="Ex: 1" min="1" required>
+                                <div class="form-text">Informe o ID do exemplar disponível.</div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="dias" class="form-label fw-semibold">Prazo</label>
+                                <input type="number" id="dias" class="form-control" name="dias" value="7" min="1" required>
+                                <div class="form-text">Quantidade de dias para devolução.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="dataEmprestimo" class="form-label fw-semibold">Data do empréstimo</label>
+                                <input type="datetime-local" id="dataEmprestimo" name="dataEmprestimo" th:field="*{dataEmprestimo}" class="form-control">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="dataPrevisaoDevolucao" class="form-label fw-semibold">Previsão de devolução</label>
+                                <input type="datetime-local" id="dataPrevisaoDevolucao" name="dataPrevisaoDevolucao" th:field="*{dataPrevisaoDevolucao}" class="form-control">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="status" class="form-label fw-semibold">Situação</label>
+                                <select id="status" name="status" th:field="*{status}" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    <option value="ATIVO">Em andamento</option>
+                                    <option value="ATRASADO">Atrasado</option>
+                                    <option value="DEVOLVIDO">Devolvido</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a th:href="@{/emprestimos}" class="btn btn-outline-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Salvar empréstimo</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- LISTA DE EMPRÉSTIMOS -->
+            <!-- ========================================================= -->
+            <section>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 fw-bold mb-0">Todos os empréstimos</h2>
+                    <span class="badge text-bg-light border">
+                        <span th:text="${emprestimos != null ? emprestimos.size() : 0}">0</span> registro(s)
+                    </span>
+                </div>
+
+                <div th:if="${emprestimos == null or #lists.isEmpty(emprestimos)}" class="alert alert-light border text-muted">
+                    <i class="bi bi-info-circle me-2"></i>Nenhum empréstimo encontrado.
+                </div>
+
+                <div class="card border-0 shadow-sm" th:if="${emprestimos != null and not #lists.isEmpty(emprestimos)}">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Livro</th>
+                                <th>Exemplar</th>
+                                <th th:if="${usuario != null and usuario.tipoUsuario.toString() == 'FUNCIONARIO'}">Leitor</th>
+                                <th>Retirado em</th>
+                                <th>Previsão de devolução</th>
+                                <th>Situação</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="emp : ${emprestimos}">
+                                <td class="fw-semibold" th:text="${emp.exemplar.livro.titulo}">Título do livro</td>
+                                <td th:text="${emp.exemplar.codigoExemplar}">EX-001-A</td>
+                                <td th:if="${usuario != null and usuario.tipoUsuario.toString() == 'FUNCIONARIO'}" th:text="${emp.usuario.nome}">João Silva</td>
+                                <td th:text="${emp.dataEmprestimo != null ? #temporals.format(emp.dataEmprestimo, 'dd/MM/yyyy HH:mm') : '-'}">10/08/2026 10:00</td>
+                                <td th:text="${emp.dataPrevisaoDevolucao != null ? #temporals.format(emp.dataPrevisaoDevolucao, 'dd/MM/yyyy HH:mm') : '-'}">17/08/2026 10:00</td>
+                                <td>
+                                    <span class="badge text-bg-warning" th:if="${emp.status != null and emp.status.toString() == 'ATIVO'}">Em andamento</span>
+                                    <span class="badge text-bg-danger" th:if="${emp.status != null and emp.status.toString() == 'ATRASADO'}">Atrasado</span>
+                                    <span class="badge text-bg-success" th:if="${emp.status != null and emp.status.toString() == 'DEVOLVIDO'}">Devolvido</span>
+                                    <span class="badge text-bg-secondary" th:if="${emp.status == null}">Sem status</span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm" th:if="${usuario != null and usuario.tipoUsuario.toString() == 'FUNCIONARIO'}">
+                                        <a class="btn btn-outline-primary" th:href="@{/emprestimos/editar/{id}(id=${emp.idEmprestimo})}">Editar</a>
+                                        <a class="btn btn-outline-danger" th:href="@{/emprestimos/excluir/{id}(id=${emp.idEmprestimo})}" onclick="return confirm('Deseja realmente excluir este empréstimo?');">Excluir</a>
+                                    </div>
+                                    <span class="text-muted small" th:unless="${usuario != null and usuario.tipoUsuario.toString() == 'FUNCIONARIO'}">Apenas visualização</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="bg-light border-top py-4 text-center text-muted small">
+            Sistema de Gerenciamento de Biblioteca · Vozes da Floresta
+        </footer>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
