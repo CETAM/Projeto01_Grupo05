@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acervo - Vozes da Floresta</title>
+    <title>Vozes da Floresta — Acervo</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -17,194 +17,87 @@
 
     <aside class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-dark">
 
-        <a href="#" th:href="@{/}" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-            <img src="../static/img_logo/logo.png" th:src="@{/img_logo/logo.png}" alt="Biblioteca Central" class="sidebar-logo me-2">
+        <a th:href="@{/}" class="d-flex align-items-center mb-3 text-white text-decoration-none">
+            <img th:src="@{/img_logo/logo.png}" alt="Vozes da Floresta" class="sidebar-logo me-2">
             <span class="fs-5 fw-semibold">Vozes da Floresta</span>
         </a>
 
         <hr>
 
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item mb-1">
-                <a href="#" th:href="@{/}" class="nav-link text-white">
-                    <i class="bi bi-house-door-fill me-2"></i>Início
-                </a>
-            </li>
-            <li class="nav-item mb-1">
-                <a href="#" th:href="@{/catalogo}" class="nav-link active">
-                    <i class="bi bi-book me-2"></i>Acervo
-                </a>
-            </li>
-            <li class="nav-item mb-1">
-                <a href="#" th:href="@{/emprestimos}" class="nav-link text-white">
-                    <i class="bi bi-journal-bookmark me-2"></i>Empréstimos
-                </a>
-            </li>
-            <li class="nav-item mb-1">
-                <a href="#" th:href="@{/reservas}" class="nav-link text-white">
-                    <i class="bi bi-bookmark-star me-2"></i>Reservas
-                </a>
-            </li>
-            <li class="nav-item mb-1">
-                <a href="#" th:href="@{/historico}" class="nav-link text-white">
-                    <i class="bi bi-clock-history me-2"></i>Histórico
-                </a>
-            </li>
+            <li class="nav-item mb-1"><a th:href="@{/}" class="nav-link text-white"><i class="bi bi-house-door-fill me-2"></i>Início</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/livros/catalogo}" class="nav-link active"><i class="bi bi-book me-2"></i>Acervo</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/emprestimos}" class="nav-link text-white"><i class="bi bi-journal-bookmark me-2"></i>Empréstimos</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/reservas}" class="nav-link text-white"><i class="bi bi-bookmark-star-fill me-2"></i>Reservas</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/historico}" class="nav-link text-white"><i class="bi bi-clock-history me-2"></i>Histórico</a></li>
         </ul>
 
         <hr>
 
         <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-                <div class="avatar-circle me-2" th:text="${#strings.substring(usuario.nome, 0, 1).toUpperCase()}"></div>
+            <a th:href="@{/}" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                <div class="avatar-circle me-2" th:text="${usuario != null ? #strings.substring(usuario.nome, 0, 1).toUpperCase() : 'U'}">U</div>
                 <div>
-                    <strong th:text="${usuario.nome}"></strong>
-                    <div class="small text-white-50" th:text="${usuario.tipoUsuario}"></div>
+                    <strong th:text="${usuario != null ? usuario.nome : 'Usuário'}">Usuário</strong>
+                    <div class="small text-white-50" th:text="${usuario != null ? usuario.tipoUsuario : 'USUÁRIO'}">USUÁRIO</div>
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark shadow">
-                <li><a class="dropdown-item" href="#" th:href="@{/perfil}"><i class="bi bi-person me-2"></i>Meu perfil</a></li>
-                <li><a class="dropdown-item" href="#" th:href="@{/configuracoes}"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                <li><a class="dropdown-item" th:href="@{/perfil}"><i class="bi bi-person me-2"></i>Meu perfil</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                <li><a class="dropdown-item" th:href="@{/logout}"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
             </ul>
         </div>
+
     </aside>
 
     <main class="main-content flex-grow-1">
 
-        <nav class="navbar bg-dark d-md-none">
-            <div class="container-fluid">
-                <a class="navbar-brand text-white" href="#" th:href="@{/static}">Biblioteca Central</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </nav>
-
         <header class="bg-primary bg-gradient text-white py-5">
-            <div class="container">
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                    <div>
-                        <p class="text-uppercase small fw-semibold mb-2 opacity-75">Pesquisa e Consulta</p>
-                        <h1 class="display-6 fw-bold mb-0">Catálogo Geral da Biblioteca</h1>
-                    </div>
-                    <div th:if="${usuario.tipoUsuario.toString() == 'FUNCIONARIO'}">
-                        <a class="btn btn-outline-light btn-lg" th:href="@{/livros/novo}">
-                            <i class="bi bi-journal-plus me-1"></i>Cadastrar Novo Livro
-                        </a>
-                    </div>
+            <div class="container d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-uppercase small fw-semibold mb-2 opacity-75">Biblioteca Pública</p>
+                    <h1 class="display-6 fw-bold mb-2">Acervo de Livros</h1>
+                    <p class="mb-0 opacity-75">Explore os títulos disponíveis para consulta, empréstimo e reserva.</p>
+                </div>
+                <div th:if="${usuario != null and usuario.tipoUsuario.toString() == 'FUNCIONARIO'}">
+                    <a th:href="@{/livros/novo}" class="btn btn-light fw-semibold shadow-sm">
+                        <i class="bi bi-plus-lg me-1"></i> Cadastrar Novo Livro
+                    </a>
                 </div>
             </div>
         </header>
 
         <div class="container my-5">
+            <div class="row g-4">
+                <div class="col-md-4" th:each="livro : ${livros}">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi bi-book fs-3 text-primary me-2"></i>
+                                <span class="badge bg-secondary" th:text="${livro.categoria != null ? livro.categoria.nome : 'Geral'}">Categoria</span>
+                            </div>
+                            <h3 class="h5 fw-bold text-dark mb-2" th:text="${livro.titulo}">Título do Livro</h3>
+                            <p class="text-muted small mb-3">ISBN: <span th:text="${livro.isbn}">0000000000</span></p>
 
-            <section class="mb-5 bg-white p-4 rounded shadow-sm border border-light">
-                <form class="row g-3 align-items-center" method="get" th:action="@{/catalogo}">
-                    <div class="col-md-8">
-                        <input type="text" name="busca" class="form-control form-control-lg" placeholder="Buscar por título, autor ou ISBN..." th:value="${param.busca}">
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="small">Disponíveis: <strong class="text-success" th:text="${estoques != null ? estoques[livro.idLivro] : 0}">0</strong></span>
+                                <a th:href="@{/livros/{id}(id=${livro.idLivro})}" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-eye me-1"></i> Ver
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select name="categoria" class="form-select form-select-lg">
-                            <option value="">Todas as categorias</option>
-                            <option th:each="cat : ${categorias}" th:value="${cat.idCategoria}" th:text="${cat.nome}"></option>
-                            <option value="tecnologia" th:if="${categorias == null}">Tecnologia</option>
-                            <option value="banco-de-dados" th:if="${categorias == null}">Banco de Dados</option>
-                        </select>
-                    </div>
-                    <div class="col-md-1 d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg"><i class="bi bi-search"></i></button>
-                    </div>
-                </form>
-            </section>
-
-            <section class="mb-5">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="h4 fw-bold m-0"><i class="bi bi-bookshelf me-2 text-primary"></i>Resultados encontrados</h2>
-                    <span class="badge text-bg-light border fs-6" th:text="${livros != null ? livros.size() + ' registros' : 'Carregando...'}">0 registros</span>
                 </div>
-
-                <div class="row g-4">
-
-                    <div class="col-sm-6 col-lg-4 col-xl-3" th:each="livro : ${livros}" th:if="${livros != null}">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body d-flex flex-column">
-                                <span class="badge text-bg-light border mb-2 align-self-start" th:text="${livro.categoria.nome}">Categoria</span>
-                                <h5 class="card-title fw-bold" th:text="${livro.titulo}">Título do Livro</h5>
-                                <p class="card-text text-muted small mb-auto" th:text="${'ISBN: ' + livro.isbn}">ISBN</p>
-                                <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
-                                    <span class="small fw-semibold text-success"><i class="bi bi-check-circle me-1"></i>Disponível</span>
-                                    <div class="d-flex gap-2">
-                                        <a th:href="@{/reservas/nova(idLivro=${livro.idLivro})}" class="btn btn-sm btn-outline-primary">Reservar</a>
-                                        <a th:href="@{/livros/{id}(id=${livro.idLivro})}" class="btn btn-sm btn-primary">Ver</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 col-xl-3" th:if="${livros == null}">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body d-flex flex-column">
-                                <span class="badge text-bg-light border mb-2 align-self-start">Tecnologia</span>
-                                <h5 class="card-title fw-bold">Estruturas de Dados e Algoritmos</h5>
-                                <p class="card-text text-muted small mb-auto">ISBN: 978-85-432-1234-5</p>
-                                <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
-                                    <span class="small fw-semibold text-success"><i class="bi bi-check-circle me-1"></i>Disponível</span>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">Reservar</button>
-                                        <button class="btn btn-sm btn-primary">Ver</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 col-xl-3" th:if="${livros == null}">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body d-flex flex-column">
-                                <span class="badge text-bg-light border mb-2 align-self-start">Engenharia de Software</span>
-                                <h5 class="card-title fw-bold">Código Limpo</h5>
-                                <p class="card-text text-muted small mb-auto">ISBN: 978-85-760-8267-5</p>
-                                <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
-                                    <span class="small fw-semibold text-danger"><i class="bi bi-x-circle me-1"></i>Indisponível</span>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">Reservar</button>
-                                        <button class="btn btn-sm btn-primary">Ver</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
+            </div>
         </div>
 
         <footer class="bg-light border-top py-4 text-center text-muted small mt-auto">
-            Sistema de Gerenciamento de Biblioteca · Acesso restrito a usuários cadastrados
+            Sistema de Gerenciamento de Biblioteca · Vozes da Floresta
         </footer>
 
     </main>
 
-</div>
-
-<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="mobileSidebar">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Biblioteca Central</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-        <ul class="nav nav-pills flex-column">
-            <li class="nav-item mb-2"><a th:href="@{/}" class="nav-link text-white"><i class="bi bi-house-door-fill me-2"></i>Início</a></li>
-            <li class="nav-item mb-2"><a th:href="@{/catalogo}" class="nav-link active"><i class="bi bi-book me-2"></i>Acervo</a></li>
-            <li class="nav-item mb-2"><a th:href="@{/emprestimos}" class="nav-link text-white"><i class="bi bi-journal-bookmark me-2"></i>Empréstimos</a></li>
-            <li class="nav-item mb-2"><a th:href="@{/reservas}" class="nav-link text-white"><i class="bi bi-bookmark-star me-2"></i>Reservas</a></li>
-            <li class="nav-item mb-2"><a th:href="@{/historico}" class="nav-link text-white"><i class="bi bi-clock-history me-2"></i>Histórico</a></li>
-        </ul>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
