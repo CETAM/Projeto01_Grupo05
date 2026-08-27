@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vozes da Floresta — Cadastro de Livro</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/pagina_inicial.css}">
+</head>
+
+<body>
+
+<div class="d-flex min-vh-100">
+
+    <aside class="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-dark">
+
+        <a th:href="@{/}" class="d-flex align-items-center mb-3 text-white text-decoration-none">
+            <img th:src="@{/img_logo/logo.png}" alt="Vozes da Floresta" class="sidebar-logo me-2">
+            <span class="fs-5 fw-semibold">Vozes da Floresta</span>
+        </a>
+
+        <hr>
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item mb-1"><a th:href="@{/}" class="nav-link text-white"><i class="bi bi-house-door-fill me-2"></i>Início</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/catalogo}" class="nav-link active"><i class="bi bi-book me-2"></i>Acervo</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/emprestimos}" class="nav-link text-white"><i class="bi bi-journal-bookmark me-2"></i>Empréstimos</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/reservas}" class="nav-link text-white"><i class="bi bi-bookmark-star-fill me-2"></i>Reservas</a></li>
+            <li class="nav-item mb-1"><a th:href="@{/historico}" class="nav-link text-white"><i class="bi bi-clock-history me-2"></i>Histórico</a></li>
+        </ul>
+
+        <hr>
+
+        <div class="dropdown">
+            <a th:href="@{/}" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                <div class="avatar-circle me-2" th:text="${usuario != null ? #strings.substring(usuario.nome, 0, 1).toUpperCase() : 'U'}">U</div>
+                <div>
+                    <strong th:text="${usuario != null ? usuario.nome : 'Usuário'}">Usuário</strong>
+                    <div class="small text-white-50" th:text="${usuario != null ? usuario.tipoUsuario : 'USUÁRIO'}">USUÁRIO</div>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark shadow">
+                <li><a class="dropdown-item" th:href="@{/perfil}"><i class="bi bi-person me-2"></i>Meu perfil</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" th:href="@{/logout}"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+            </ul>
+        </div>
+
+    </aside>
+
+    <main class="main-content flex-grow-1">
+
+        <header class="bg-primary bg-gradient text-white py-5">
+            <div class="container">
+                <a th:href="@{/catalogo}" class="text-white text-decoration-none opacity-75 mb-3 d-inline-block">
+                    <i class="bi bi-arrow-left me-1"></i> Voltar para o Acervo
+                </a>
+                <p class="text-uppercase small fw-semibold mb-2 opacity-75">Gestão de Acervo</p>
+                <h1 class="display-6 fw-bold mb-2">Cadastrar Novo Livro</h1>
+                <p class="mb-0 opacity-75">Preencha as informações técnicas e cadastrais para registrar uma nova obra no sistema.</p>
+            </div>
+        </header>
+
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-5">
+
+                            <form th:action="@{/livros/salvar}" th:object="${livro}" method="post">
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-6">
+                                        <label for="codigo" class="form-label fw-semibold">Código do Livro</label>
+                                        <input type="text" id="codigo" th:field="*{codigo}" class="form-control" placeholder="Ex: LIV-001" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="isbn" class="form-label fw-semibold">ISBN</label>
+                                        <input type="text" id="isbn" th:field="*{isbn}" class="form-control" placeholder="Ex: 9788576082675" required>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="titulo" class="form-label fw-semibold">Título do Livro</label>
+                                        <input type="text" id="titulo" th:field="*{titulo}" class="form-control" placeholder="Ex: Código Limpo" required>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="ano" class="form-label fw-semibold">Ano de Publicação</label>
+                                        <input type="number" id="ano" th:field="*{ano}" class="form-control" placeholder="Ex: 2026">
+                                    </div>
+
+                                    <!-- Campo de texto livre para Categoria -->
+                                    <div class="col-md-4">
+                                        <label for="categoria" class="form-label fw-semibold">Categoria</label>
+                                        <input type="text" id="categoria" th:field="*{categoria.nome}" class="form-control" placeholder="Ex: Tecnologia" required>
+                                    </div>
+
+                                    <!-- Campo de texto livre para Editora -->
+                                    <div class="col-md-4">
+                                        <label for="editora" class="form-label fw-semibold">Editora</label>
+                                        <input type="text" id="editora" th:field="*{editora.nome}" class="form-control" placeholder="Ex: Alta Books" required>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="autores" class="form-label fw-semibold">Autores (Opcional)</label>
+                                        <input type="text" id="autores" class="form-control" placeholder="Nome dos autores">
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                                    <a th:href="@{/catalogo}" class="btn btn-outline-secondary">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-check-lg me-1"></i>Salvar Livro
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <footer class="bg-light border-top py-4 text-center text-muted small mt-auto">
+            Sistema de Gerenciamento de Biblioteca · Vozes da Floresta
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
