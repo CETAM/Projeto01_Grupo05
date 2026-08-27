@@ -55,9 +55,13 @@ public class ReservaController {
             model.addAttribute("reservas", reservaService.listarPorUsuario(usuario));
         }
 
+        model.addAttribute("reserva", new Reserva());
+
         return "reserva-form";
     }
 
+    @GetMapping("/nova")
+    public String novaReserva(@RequestParam(required = false) Long idLivro, HttpSession session, RedirectAttributes redirectAttributes) {
     @GetMapping("/novo/{idLivro}")
     public String solicitarReserva(@PathVariable Long idLivro, HttpSession session, RedirectAttributes redirectAttributes) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
@@ -66,6 +70,38 @@ public class ReservaController {
             return "redirect:/login";
         }
 
+        if (idLivro != null) {
+            Optional<Livro> livroOpt = livroService.buscarPorId(idLivro);
+            if (livroOpt.isPresent()) {
+                reservaService.criarReserva(usuario, livroOpt.get());
+                redirectAttributes.addFlashAttribute("mensagem", "Sua reserva foi solicitada com sucesso!");
+            } else {
+                redirectAttributes.addFlashAttribute("erro", "Livro não encontrado para reserva.");
+            }
+        }
+        return "redirect:/reservas";
+    }
+
+    @GetMapping("/novo")
+    public String novo(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("reserva", new Reserva());
+
+        return "reserva-form";
+    }
+
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Reserva reserva, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
         try {
             Reserva reserva = new Reserva();
             reserva.setUsuario(usuario);
@@ -79,6 +115,9 @@ public class ReservaController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Não foi possível realizar a reserva: " + e.getMessage());
         }
+
+        reserva.setUsuario(usuario);
+        reservaService.salvar(reserva);
 
         return "redirect:/reservas";
     }
@@ -136,6 +175,33 @@ public class ReservaController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("erro", "Erro ao atender reserva: " + e.getMessage());
         }
+
+        return "redirect:/reservas";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("reserva", reservaService.buscarPorId(id).orElseThrow());
+
+        return "reserva-form";
+    }
+
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        reservaService.deletar(id);
 
         return "redirect:/reservas";
     }
