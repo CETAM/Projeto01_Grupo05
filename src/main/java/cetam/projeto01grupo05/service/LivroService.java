@@ -1,6 +1,13 @@
 package cetam.projeto01grupo05.service;
 
+import cetam.projeto01grupo05.model.Categoria;
+import cetam.projeto01grupo05.model.Editora;
+import cetam.projeto01grupo05.model.Exemplar;
 import cetam.projeto01grupo05.model.Livro;
+import cetam.projeto01grupo05.model.enums.StatusExemplar;
+import cetam.projeto01grupo05.repository.CategoriaRepository;
+import cetam.projeto01grupo05.repository.EditoraRepository;
+import cetam.projeto01grupo05.repository.ExemplarRepository;
 import cetam.projeto01grupo05.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +18,40 @@ import java.util.Optional;
 public class LivroService {
 
     private final LivroRepository livroRepository;
+    private final CategoriaRepository categoriaRepository;
+    private final EditoraRepository editoraRepository;
+    private final ExemplarRepository exemplarRepository;
 
-    public LivroService(LivroRepository livroRepository) {
+    public LivroService(LivroRepository livroRepository, CategoriaRepository categoriaRepository, EditoraRepository editoraRepository, ExemplarRepository exemplarRepository) {
         this.livroRepository = livroRepository;
+        this.categoriaRepository = categoriaRepository;
+        this.editoraRepository = editoraRepository;
+        this.exemplarRepository = exemplarRepository;
     }
 
     public Livro salvar(Livro livro) {
+        if (livro.getCategoria() != null && livro.getCategoria().getNome() != null && !livro.getCategoria().getNome().trim().isEmpty()) {
+            String nomeCategoria = livro.getCategoria().getNome().trim();
+            Categoria categoria = categoriaRepository.findByNomeIgnoreCase(nomeCategoria)
+                    .orElseGet(() -> {
+                        Categoria novaCat = new Categoria();
+                        novaCat.setNome(nomeCategoria);
+                        return categoriaRepository.save(novaCat);
+                    });
+            livro.setCategoria(categoria);
+        }
+
+        if (livro.getEditora() != null && livro.getEditora().getNome() != null && !livro.getEditora().getNome().trim().isEmpty()) {
+            String nomeEditora = livro.getEditora().getNome().trim();
+            Editora editora = editoraRepository.findByNomeIgnoreCase(nomeEditora)
+                    .orElseGet(() -> {
+                        Editora novaEd = new Editora();
+                        novaEd.setNome(nomeEditora);
+                        return editoraRepository.save(novaEd);
+                    });
+            livro.setEditora(editora);
+        }
+
         return livroRepository.save(livro);
     }
 
@@ -28,16 +63,18 @@ public class LivroService {
         return livroRepository.findById(id);
     }
 
+    public int contarExemplaresDisponiveis(Long idLivro) {
+        List<Exemplar> disponiveis = exemplarRepository.findByLivroIdLivroAndStatus(idLivro, StatusExemplar.DISPONIVEL);
+        return disponiveis.size();
+    }
+
     public Optional<Livro> atualizar(Long id, Livro dados) {
         return livroRepository.findById(id).map(livro -> {
             livro.setCodigo(dados.getCodigo());
             livro.setTitulo(dados.getTitulo());
             livro.setIsbn(dados.getIsbn());
             livro.setAno(dados.getAno());
-            livro.setCategoria(dados.getCategoria());
-            livro.setEditora(dados.getEditora());
             livro.setAutores(dados.getAutores());
-
             return livroRepository.save(livro);
         });
     }
