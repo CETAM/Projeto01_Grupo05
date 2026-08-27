@@ -1,6 +1,7 @@
 package cetam.projeto01grupo05.repository;
 
 import cetam.projeto01grupo05.model.Emprestimo;
+import cetam.projeto01grupo05.model.Usuario;
 import cetam.projeto01grupo05.model.enums.StatusEmprestimo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,7 @@ public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
             Long idUsuario,
             StatusEmprestimo status
     );
+
+    // Busca os empréstimos passando o objeto Usuario inteiro
+    List<Emprestimo> findByUsuario(Usuario usuario);
 }
